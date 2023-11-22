@@ -1,15 +1,12 @@
 package org.carthageking.mc.mcck.core.csv;
 
-import java.io.File;
 import java.io.StringWriter;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 
 import org.apache.commons.csv.CSVFormat;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,7 +44,9 @@ public class CustomCsvWriterTest {
 			writer.flush();
 		}
 
-		System.err.println(sw);
-		Files.write(new File("target/out.csv").toPath(), sw.toString().getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE);
+		// System.err.println(sw);
+		// Files.write(new File("target/out.csv").toPath(),
+		// sw.toString().getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE);
+		Assertions.assertEquals("\"123\",\"a number 1\",\"who said \"\"I am sam\"\"?\",\"O'Leary, wher\"\"\"\"e did you go?\",\"Well\\come! \"\"Heathen''\"", sw.toString().trim());
 	}
 }
