@@ -93,4 +93,56 @@ class OkHttp3HttpClientHelperTest {
 			wireMockServer.resetAll();
 		}
 	}
+
+	@Test
+	void test_doPost() {
+		HttpClientHelper hch = new OkHttp3HttpClientHelper(httpClient);
+		Assertions.assertNotNull(((OkHttp3HttpClientHelper) hch).getHttpClient());
+		HttpClientHelperResult<String> result = null;
+
+		// basic call
+		{
+			wireMockServer.stubFor(WireMock.post("/samplePost").withRequestBody(WireMock.equalTo("included")).willReturn(WireMock.status(202).withBody("yahello")));
+
+			result = hch.doPost(HttpClientHelper.createURI(() -> {
+				URIBuilder ub = new URIBuilder("http://localhost:" + port + "/samplePost");
+				return ub.build();
+			}), "included");
+			log.trace("Got {} [{}] response string with length of {}",
+				result.getStatusLine().getCode(), result.getStatusLine().getMessage(),
+				result.getBodyAsString().length());
+			Assertions.assertEquals(true, result.getBody().isPresent());
+			Assertions.assertEquals(202, result.getStatusLine().getCode());
+
+			wireMockServer.resetAll();
+		}
+
+		// testing with setting custom headers
+		{
+			String header1 = "x-abc123";
+			String header2 = "x-xyz456";
+			wireMockServer.stubFor(WireMock.post("/samplePost")
+				.withHeader(header1, WireMock.equalTo("HHH"))
+				.withHeader(header2, WireMock.equalTo("JJJ"))
+				.withRequestBody(WireMock.equalTo("lasted"))
+				.willReturn(WireMock.status(207).withBody("cognac").withHeader("X-returned", "returnok")));
+
+			result = hch.doPost(HttpClientHelper.createURI(() -> {
+				URIBuilder ub = new URIBuilder("http://localhost:" + port + "/samplePost");
+				return ub.build();
+			}), "lasted", hdrs -> {
+				hdrs.setHeader(header1, "HHH");
+				hdrs.addHeader(header2, "JJJ");
+			});
+			log.trace("Got {} [{}] response string with length of {}",
+				result.getStatusLine().getCode(), result.getStatusLine().getMessage(),
+				result.getBodyAsString().length());
+			Assertions.assertEquals(true, result.getBody().isPresent());
+			Assertions.assertEquals(207, result.getStatusLine().getCode());
+			Assertions.assertEquals(1, result.getHeaders().get("X-returned").size());
+			Assertions.assertEquals("returnok", result.getHeaders().get("X-returned").get(0));
+
+			wireMockServer.resetAll();
+		}
+	}
 }

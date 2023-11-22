@@ -10,8 +10,8 @@ public class HttpClientHelperResult<T> {
 	private final T body;
 	private final Map<String, List<String>> headers;
 
-	public HttpClientHelperResult(StatusLine statusLinee, Map<String, List<String>> headers, T body) {
-		this.statusLine = statusLinee;
+	public HttpClientHelperResult(StatusLine statusLine, Map<String, List<String>> headers, T body) {
+		this.statusLine = statusLine;
 		this.body = body;
 		this.headers = headers;
 	}
