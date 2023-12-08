@@ -13,7 +13,7 @@
     <use value="usual"></use>
     <type>
       <coding>
-        <system value="http://terminology.hl7.org/CodeSystem/v2-0203"></system>
+        <system value="http://terminology.hl7.org/CodeSystem/v2-0203" anotherAttr="hi"></system>
         <code value="MR"></code>
       </coding>
     </type>

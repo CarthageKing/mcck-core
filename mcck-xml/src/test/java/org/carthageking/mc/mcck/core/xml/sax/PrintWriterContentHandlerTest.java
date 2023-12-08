@@ -65,5 +65,18 @@ class PrintWriterContentHandlerTest {
 			String exp = IOUtil.readAllAsStringFromClasspathResource(getClass(), "patient_out_noIncludedChars.xml", StandardCharsets.UTF_8).trim();
 			Assertions.assertEquals(exp, sw.toString().trim());
 		}
+
+		// exclude characters and pretty print
+		{
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			try (InputStream is = getClass().getResourceAsStream("patient.xml")) {
+				InputSource isrc = new InputSource(is);
+				saxp.parse(isrc, new PrintWriterContentHandler(pw, false, true));
+			}
+			//System.err.println(sw);
+			String exp = IOUtil.readAllAsStringFromClasspathResource(getClass(), "patient_out_noIncludedChars_prettyPrint.xml", StandardCharsets.UTF_8).trim();
+			Assertions.assertEquals(exp, sw.toString().trim());
+		}
 	}
 }
