@@ -1,0 +1,33 @@
+<Patient xmlns="http://hl7.org/fhir">
+	<id value="pat3"></id>
+	<text>
+		<status value="generated"></status>
+		<div xmlns="http://www.w3.org/1999/xhtml">
+			<p></p>
+		</div>
+	</text>
+	<identifier>
+		<use value="usual"></use>
+		<type>
+			<coding>
+				<system value="http://terminology.hl7.org/CodeSystem/v2-0203" anotherAttr="hi"></system>
+				<code value="MR"></code>
+			</coding>
+		</type>
+		<system value="urn:oid:0.1.2.3.4.5.6.7"></system>
+		<value value="123457"></value>
+	</identifier>
+	<active value="true"></active>
+	<name>
+		<use value="official"></use>
+		<family value="Notsowell"></family>
+		<given value="Simon"></given>
+	</name>
+	<gender value="male"></gender>
+	<birthDate value="1982-01-23"></birthDate>
+	<deceasedDateTime value="2015-02-14T13:42:00+10:00"></deceasedDateTime>
+	<managingOrganization>
+		<reference value="Organization/1"></reference>
+		<display value="ACME Healthcare, Inc"></display>
+	</managingOrganization>
+</Patient>

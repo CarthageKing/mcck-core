@@ -11,8 +11,11 @@
 		<module>mcck-core-httpclient</module>
 		<module>mcck-core-httpclient-okhttp3</module>
 		<module>mcck-core-csv</module>
-		<module>mcck-xml</module>
+		<module>mcck-core-xml</module>
 		<module>mcck-core-jse</module>
+		<module>mcck-core-spreadsheet-excel</module>
+		<module>mcck-core-spreadsheet</module>
+		<module>mcck-core-test</module>
 	</modules>
 
 
@@ -42,6 +45,30 @@
 				<groupId>org.carthageking.mc</groupId>
 				<artifactId>mcck-core-jse</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.carthageking.mc</groupId>
+				<artifactId>mcck-core-test</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.carthageking.mc</groupId>
+				<artifactId>mcck-core-xml</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.carthageking.mc</groupId>
+				<artifactId>mcck-core-spreadsheet</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi-ooxml</artifactId>
+				<version>5.2.5</version>
 			</dependency>
 
 			<dependency>

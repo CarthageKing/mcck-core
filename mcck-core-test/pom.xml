@@ -7,7 +7,7 @@
 		<artifactId>mcck-core</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>mcck-xml</artifactId>
+	<artifactId>mcck-core-test</artifactId>
 
 
 	<dependencies>
@@ -17,14 +17,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-text</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<scope>test</scope>
 		</dependency>
 
 		<dependency>
