@@ -10,6 +10,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.carthageking.mc</groupId>
+			<artifactId>mcck-core-jse</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpcore</artifactId>
 		</dependency>

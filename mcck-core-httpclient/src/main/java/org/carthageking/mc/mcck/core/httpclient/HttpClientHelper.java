@@ -20,7 +20,7 @@ public interface HttpClientHelper {
 		try {
 			return uriCreator.buildUri();
 		} catch (Exception e) {
-			throw new HttpClientHelperException("An error occurred while building URI", e);
+			throw new HttpClientHelperException(e);
 		}
 	}
 

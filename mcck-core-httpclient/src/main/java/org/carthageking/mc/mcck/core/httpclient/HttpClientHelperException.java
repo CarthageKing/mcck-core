@@ -1,6 +1,8 @@
 package org.carthageking.mc.mcck.core.httpclient;
 
-public class HttpClientHelperException extends RuntimeException {
+import org.carthageking.mc.mcck.core.jse.McckException;
+
+public class HttpClientHelperException extends McckException {
 
 	private static final long serialVersionUID = -1380292491906255088L;
 
@@ -14,5 +16,9 @@ public class HttpClientHelperException extends RuntimeException {
 
 	public HttpClientHelperException(String msg, Throwable cause) {
 		super(msg, cause);
+	}
+
+	public HttpClientHelperException(Throwable cause) {
+		super(cause);
 	}
 }

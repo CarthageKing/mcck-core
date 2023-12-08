@@ -61,7 +61,7 @@ public class Excel97To2003Reader {
 		try (POIFSFileSystem poifs = new POIFSFileSystem(is)) {
 			readWorkbook(poifs, handler);
 		} catch (SAXException | IOException e) {
-			throw new WorkbookIOException("An error occurred", e);
+			throw new WorkbookIOException(e);
 		}
 	}
 
@@ -69,7 +69,7 @@ public class Excel97To2003Reader {
 		try (POIFSFileSystem poifs = new POIFSFileSystem(theFile)) {
 			readWorkbook(poifs, handler);
 		} catch (SAXException | IOException e) {
-			throw new WorkbookIOException("An error occurred", e);
+			throw new WorkbookIOException(e);
 		}
 	}
 
@@ -291,7 +291,7 @@ public class Excel97To2003Reader {
 				try {
 					processor.process(theRecord);
 				} catch (Exception e) {
-					throw new WorkbookIOException("An error occurred", e);
+					throw new WorkbookIOException(e);
 				}
 			}
 		}

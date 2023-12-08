@@ -64,7 +64,7 @@ public class OkHttp3HttpClientHelper implements HttpClientHelper {
 				return new HttpClientHelperResult<>(status, httpRsp.headers().toMultimap(), rbody.string());
 			}
 		} catch (IOException e) {
-			throw new HttpClientHelperException("An error occurred", e);
+			throw new HttpClientHelperException(e);
 		}
 	}
 

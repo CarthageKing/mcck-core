@@ -1,6 +1,8 @@
 package org.carthageking.mc.mcck.core.spreadsheet;
 
-public class WorkbookIOException extends RuntimeException {
+import org.carthageking.mc.mcck.core.jse.McckException;
+
+public class WorkbookIOException extends McckException {
 
 	private static final long serialVersionUID = -3724685274381239709L;
 
@@ -14,5 +16,9 @@ public class WorkbookIOException extends RuntimeException {
 
 	public WorkbookIOException(String msg, Throwable cause) {
 		super(msg, cause);
+	}
+
+	public WorkbookIOException(Throwable cause) {
+		super(cause);
 	}
 }
