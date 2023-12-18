@@ -22,7 +22,7 @@ import org.apache.poi.xssf.eventusermodel.XSSFReader.SheetIterator;
 import org.apache.poi.xssf.model.SharedStrings;
 import org.apache.poi.xssf.model.StylesTable;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
-import org.carthageking.mc.mcck.core.jse.IOUtil;
+import org.carthageking.mc.mcck.core.jse.McckIOUtil;
 import org.carthageking.mc.mcck.core.spreadsheet.SpreadsheetConstants;
 import org.carthageking.mc.mcck.core.spreadsheet.SpreadsheetReader;
 import org.carthageking.mc.mcck.core.spreadsheet.WorkbookIOException;
@@ -93,9 +93,9 @@ public class Excel2007Reader implements SpreadsheetReader {
 			handler.endDocument();
 		} finally {
 			if (ssTbl instanceof AutoCloseable) {
-				IOUtil.closeFully((AutoCloseable) ssTbl);
+				McckIOUtil.closeFully((AutoCloseable) ssTbl);
 			} else if (ssTbl instanceof Closeable) {
-				IOUtil.closeFully((Closeable) ssTbl);
+				McckIOUtil.closeFully((Closeable) ssTbl);
 			}
 		}
 	}

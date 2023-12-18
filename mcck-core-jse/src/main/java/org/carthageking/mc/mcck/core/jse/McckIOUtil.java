@@ -7,9 +7,9 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.function.Consumer;
 
-public final class IOUtil {
+public final class McckIOUtil {
 
-	private IOUtil() {
+	private McckIOUtil() {
 		// noop
 	}
 

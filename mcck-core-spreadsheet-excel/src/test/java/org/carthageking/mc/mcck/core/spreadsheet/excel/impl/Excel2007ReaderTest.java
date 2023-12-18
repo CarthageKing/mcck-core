@@ -9,8 +9,8 @@ import java.util.List;
 
 import javax.xml.parsers.SAXParserFactory;
 
-import org.carthageking.mc.mcck.core.jse.IOUtil;
-import org.carthageking.mc.mcck.core.jse.StrUtil;
+import org.carthageking.mc.mcck.core.jse.McckIOUtil;
+import org.carthageking.mc.mcck.core.jse.McckStrUtil;
 import org.carthageking.mc.mcck.core.test.junit5.McckJunit5Util;
 import org.carthageking.mc.mcck.core.xml.sax.PrintWriterContentHandler;
 import org.junit.jupiter.api.AfterAll;
@@ -56,9 +56,9 @@ class Excel2007ReaderTest {
 			actual = sw.toString();
 		}
 
-		expected = IOUtil.readAllAsStringFromClasspathResource(getClass(), "ExampleExcel_xls_output01.xml", StandardCharsets.UTF_8);
-		actlst = StrUtil.readIntoLines(actual);
-		explst = StrUtil.readIntoLines(expected);
+		expected = McckIOUtil.readAllAsStringFromClasspathResource(getClass(), "ExampleExcel_xls_output01.xml", StandardCharsets.UTF_8);
+		actlst = McckStrUtil.readIntoLines(actual);
+		explst = McckStrUtil.readIntoLines(expected);
 		McckJunit5Util.assertSameLines(explst, actlst);
 
 		{
@@ -72,9 +72,9 @@ class Excel2007ReaderTest {
 			actual = sw.toString();
 		}
 
-		expected = IOUtil.readAllAsStringFromClasspathResource(getClass(), "ExampleExcel_xls_output01.xml", StandardCharsets.UTF_8);
-		actlst = StrUtil.readIntoLines(actual);
-		explst = StrUtil.readIntoLines(expected);
+		expected = McckIOUtil.readAllAsStringFromClasspathResource(getClass(), "ExampleExcel_xls_output01.xml", StandardCharsets.UTF_8);
+		actlst = McckStrUtil.readIntoLines(actual);
+		explst = McckStrUtil.readIntoLines(expected);
 		McckJunit5Util.assertSameLines(explst, actlst);
 	}
 }

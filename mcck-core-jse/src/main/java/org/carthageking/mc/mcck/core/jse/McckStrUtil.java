@@ -6,9 +6,9 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class StrUtil {
+public final class McckStrUtil {
 
-	private StrUtil() {
+	private McckStrUtil() {
 		// noop
 	}
 
