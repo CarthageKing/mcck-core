@@ -34,17 +34,19 @@ import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.util.GenericRecordUtil.AnnotatedFlag;
 import org.carthageking.mc.mcck.core.jse.McckUtil;
 import org.carthageking.mc.mcck.core.spreadsheet.SpreadsheetConstants;
+import org.carthageking.mc.mcck.core.spreadsheet.SpreadsheetReader;
 import org.carthageking.mc.mcck.core.spreadsheet.WorkbookIOException;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-public class Excel97To2003Reader {
+public class Excel97To2003Reader implements SpreadsheetReader {
 
 	public Excel97To2003Reader() {
 		// noop
 	}
 
+	@Override
 	public void readSpreadsheet(InputStream is, ContentHandler handler) {
 		try (POIFSFileSystem poifs = new POIFSFileSystem(is)) {
 			readWorkbook(poifs, handler);
@@ -53,8 +55,9 @@ public class Excel97To2003Reader {
 		}
 	}
 
+	@Override
 	public void readSpreadsheet(File theFile, ContentHandler handler) {
-		try (POIFSFileSystem poifs = new POIFSFileSystem(theFile)) {
+		try (POIFSFileSystem poifs = new POIFSFileSystem(theFile, true)) {
 			readWorkbook(poifs, handler);
 		} catch (SAXException | IOException e) {
 			throw new WorkbookIOException(e);
@@ -636,13 +639,13 @@ public class Excel97To2003Reader {
 
 			CellType cellType = fRec.getCachedResultTypeEnum();
 
-			if (CellType.NUMERIC == cellType) {
+			if (CellType.NUMERIC.equals(cellType)) {
 				atts.addAttribute(null, SpreadsheetConstants.ATTR_FORMULATYPE, SpreadsheetConstants.ATTR_FORMULATYPE, null, CellType.NUMERIC.toString());
 				atts.addAttribute(null, SpreadsheetConstants.ATTR_FINALVALUE, SpreadsheetConstants.ATTR_FINALVALUE, null, formatTrackingListener.formatNumberDateCell(fRec));
 
 				handler.startElement(null, SpreadsheetConstants.TAG_CELL, SpreadsheetConstants.TAG_CELL, atts);
 				handler.endElement(null, SpreadsheetConstants.TAG_CELL, SpreadsheetConstants.TAG_CELL);
-			} else if (CellType.STRING == cellType) {
+			} else if (CellType.STRING.equals(cellType)) {
 				// the next record after this should be a StringRecord. get the finalValue from there
 				atts.addAttribute(null, SpreadsheetConstants.ATTR_FORMULATYPE, SpreadsheetConstants.ATTR_FORMULATYPE, null, CellType.STRING.toString());
 				lastAttributes = atts;
@@ -786,7 +789,7 @@ public class Excel97To2003Reader {
 			atts.addAttribute(null, SpreadsheetConstants.ATTR_ROW, SpreadsheetConstants.ATTR_ROW, null, String.valueOf(row));
 			atts.addAttribute(null, SpreadsheetConstants.ATTR_COL, SpreadsheetConstants.ATTR_COL, null, String.valueOf(col));
 			atts.addAttribute(null, SpreadsheetConstants.ATTR_CELLREF, SpreadsheetConstants.ATTR_CELLREF, null, new CellReference(row, col).formatAsString(false));
-			atts.addAttribute(null, SpreadsheetConstants.ATR_RAWVALUE, SpreadsheetConstants.ATR_RAWVALUE, null, String.valueOf(origVal));
+			//atts.addAttribute(null, SpreadsheetConstants.ATR_RAWVALUE, SpreadsheetConstants.ATR_RAWVALUE, null, String.valueOf(origVal));
 			atts.addAttribute(null, SpreadsheetConstants.ATTR_FINALVALUE, SpreadsheetConstants.ATTR_FINALVALUE, null, formatTrackingListener.formatNumberDateCell(fRec));
 
 			handler.startElement(null, SpreadsheetConstants.TAG_CELL, SpreadsheetConstants.TAG_CELL, atts);

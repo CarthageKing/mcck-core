@@ -1,9 +1,11 @@
 package org.carthageking.mc.mcck.core.jse;
 
 import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.function.Consumer;
 
 public final class IOUtil {
 
@@ -16,6 +18,38 @@ public final class IOUtil {
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
 			is.transferTo(bos);
 			return new String(bos.toByteArray(), charset);
+		}
+	}
+
+	public static void closeFully(AutoCloseable c) {
+		closeFully(c, null);
+	}
+
+	public static void closeFully(AutoCloseable c, Consumer<Exception> exceptionHandler) {
+		if (null != c) {
+			try {
+				c.close();
+			} catch (Exception e) {
+				if (null != exceptionHandler) {
+					exceptionHandler.accept(e);
+				}
+			}
+		}
+	}
+
+	public static void closeFully(Closeable c) {
+		closeFully(c, null);
+	}
+
+	public static void closeFully(Closeable c, Consumer<Exception> exceptionHandler) {
+		if (null != c) {
+			try {
+				c.close();
+			} catch (Exception e) {
+				if (null != exceptionHandler) {
+					exceptionHandler.accept(e);
+				}
+			}
 		}
 	}
 }

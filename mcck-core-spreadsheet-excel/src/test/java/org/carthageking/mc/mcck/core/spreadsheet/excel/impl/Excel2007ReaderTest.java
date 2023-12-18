@@ -7,6 +7,8 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import javax.xml.parsers.SAXParserFactory;
+
 import org.carthageking.mc.mcck.core.jse.IOUtil;
 import org.carthageking.mc.mcck.core.jse.StrUtil;
 import org.carthageking.mc.mcck.core.test.junit5.McckJunit5Util;
@@ -17,7 +19,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class Excel97To2003ReaderTest {
+class Excel2007ReaderTest {
+
+	private static final SAXParserFactory SAX_PARSER_FACTORY = SAXParserFactory.newInstance();
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -42,8 +46,8 @@ class Excel97To2003ReaderTest {
 		List<String> actlst = null;
 		List<String> explst = null;
 
-		try (InputStream is = getClass().getResourceAsStream("ExampleExcel.xls")) {
-			Excel97To2003Reader reader = new Excel97To2003Reader();
+		try (InputStream is = getClass().getResourceAsStream("ExampleExcel.xlsx")) {
+			Excel2007Reader reader = new Excel2007Reader(SAX_PARSER_FACTORY);
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
 			reader.readSpreadsheet(is, new PrintWriterContentHandler(pw, false, true));
@@ -58,8 +62,8 @@ class Excel97To2003ReaderTest {
 		McckJunit5Util.assertSameLines(explst, actlst);
 
 		{
-			File toRead = new File("src/test/resources/org/carthageking/mc/mcck/core/spreadsheet/excel/impl/ExampleExcel.xls");
-			Excel97To2003Reader reader = new Excel97To2003Reader();
+			File toRead = new File("src/test/resources/org/carthageking/mc/mcck/core/spreadsheet/excel/impl/ExampleExcel.xlsx");
+			Excel2007Reader reader = new Excel2007Reader(SAX_PARSER_FACTORY);
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
 			reader.readSpreadsheet(toRead, new PrintWriterContentHandler(pw, false, true));
