@@ -4,14 +4,16 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.carthageking.mc.mcck.core.jse.IOUtil;
+import org.carthageking.mc.mcck.core.jse.StrUtil;
+import org.carthageking.mc.mcck.core.test.junit5.McckJunit5Util;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,7 +52,9 @@ class PrintWriterContentHandlerTest {
 			}
 			// System.err.println(sw);
 			String exp = IOUtil.readAllAsStringFromClasspathResource(getClass(), "patient_out_includedChars.xml", StandardCharsets.UTF_8).trim();
-			Assertions.assertEquals(exp, sw.toString().trim());
+			List<String> explst = StrUtil.readIntoLines(exp);
+			List<String> actlst = StrUtil.readIntoLines(sw.toString());
+			McckJunit5Util.assertSameLines(explst, actlst);
 		}
 
 		// exclude characters
@@ -63,7 +67,9 @@ class PrintWriterContentHandlerTest {
 			}
 			//System.err.println(sw);
 			String exp = IOUtil.readAllAsStringFromClasspathResource(getClass(), "patient_out_noIncludedChars.xml", StandardCharsets.UTF_8).trim();
-			Assertions.assertEquals(exp, sw.toString().trim());
+			List<String> explst = StrUtil.readIntoLines(exp);
+			List<String> actlst = StrUtil.readIntoLines(sw.toString());
+			McckJunit5Util.assertSameLines(explst, actlst);
 		}
 
 		// exclude characters and pretty print
@@ -76,7 +82,9 @@ class PrintWriterContentHandlerTest {
 			}
 			//System.err.println(sw);
 			String exp = IOUtil.readAllAsStringFromClasspathResource(getClass(), "patient_out_noIncludedChars_prettyPrint.xml", StandardCharsets.UTF_8).trim();
-			Assertions.assertEquals(exp, sw.toString().trim());
+			List<String> explst = StrUtil.readIntoLines(exp);
+			List<String> actlst = StrUtil.readIntoLines(sw.toString());
+			McckJunit5Util.assertSameLines(explst, actlst);
 		}
 	}
 }
