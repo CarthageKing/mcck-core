@@ -33,25 +33,13 @@ import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.util.GenericRecordUtil.AnnotatedFlag;
 import org.carthageking.mc.mcck.core.jse.McckUtil;
+import org.carthageking.mc.mcck.core.spreadsheet.SpreadsheetConstants;
 import org.carthageking.mc.mcck.core.spreadsheet.WorkbookIOException;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
 public class Excel97To2003Reader {
-	private static final String TAG_WORKBOOK = "workbook";
-	private static final String TAG_SHEET = "sheet";
-	public static final String TAG_CELL = "c";
-
-	private static final String ATTR_DATATYPE = "dataType";
-	private static final String ATTR_COL = "col";
-	private static final String ATTR_ROW = "row";
-	private static final String ATTR_CELLREF = "cellRef";
-	private static final String ATR_RAWVALUE = "rawValue";
-	private static final String ATTR_FINALVALUE = "finalValue";
-	private static final String ATTR_FORMULATYPE = "formulaType";
-	private static final String ATTR_INDEX = "index";
-	private static final String ATTR_NAME = "name";
 
 	public Excel97To2003Reader() {
 		// noop
@@ -277,7 +265,7 @@ public class Excel97To2003Reader {
 		}
 
 		public void finalizeEvents() throws SAXException {
-			handler.endElement(null, TAG_WORKBOOK, TAG_WORKBOOK);
+			handler.endElement(null, SpreadsheetConstants.TAG_WORKBOOK, SpreadsheetConstants.TAG_WORKBOOK);
 			handler.endDocument();
 		}
 
@@ -352,17 +340,17 @@ public class Excel97To2003Reader {
 			BOFRecord bof = (BOFRecord) theRecord;
 			if (BOFRecord.TYPE_WORKBOOK == bof.getType()) {
 				handler.startDocument();
-				handler.startElement(null, TAG_WORKBOOK, TAG_WORKBOOK, new AttributesImpl());
+				handler.startElement(null, SpreadsheetConstants.TAG_WORKBOOK, SpreadsheetConstants.TAG_WORKBOOK, new AttributesImpl());
 			} else if (BOFRecord.TYPE_WORKSHEET == bof.getType()) {
 				finalizeBoundSheetList();
 				sheetIndexCounter++;
 				BoundSheetRecord bsr = boundSheetRecords.get(sheetIndexCounter);
 
 				AttributesImpl atts = new AttributesImpl();
-				atts.addAttribute(null, ATTR_INDEX, ATTR_INDEX, null, String.valueOf(sheetIndexCounter));
-				atts.addAttribute(null, ATTR_NAME, ATTR_NAME, null, bsr.getSheetname());
+				atts.addAttribute(null, SpreadsheetConstants.ATTR_INDEX, SpreadsheetConstants.ATTR_INDEX, null, String.valueOf(sheetIndexCounter));
+				atts.addAttribute(null, SpreadsheetConstants.ATTR_NAME, SpreadsheetConstants.ATTR_NAME, null, bsr.getSheetname());
 
-				handler.startElement(null, TAG_SHEET, TAG_SHEET, atts);
+				handler.startElement(null, SpreadsheetConstants.TAG_SHEET, SpreadsheetConstants.TAG_SHEET, atts);
 			} else {
 				genericStartEndElement(theRecord, true, false);
 			}
@@ -561,7 +549,7 @@ public class Excel97To2003Reader {
 			if (BOFRecord.TYPE_WORKBOOK == bof.getType()) {
 				// do not output closing tag
 			} else if (BOFRecord.TYPE_WORKSHEET == bof.getType()) {
-				handler.endElement(null, TAG_SHEET, TAG_SHEET);
+				handler.endElement(null, SpreadsheetConstants.TAG_SHEET, SpreadsheetConstants.TAG_SHEET);
 			} else {
 				genericStartEndElement(bof, false, true);
 			}
@@ -641,22 +629,22 @@ public class Excel97To2003Reader {
 			short col = fRec.getColumn();
 
 			AttributesImpl atts = new AttributesImpl();
-			atts.addAttribute(null, ATTR_DATATYPE, ATTR_DATATYPE, null, "formula");
-			atts.addAttribute(null, ATTR_ROW, ATTR_ROW, null, String.valueOf(row));
-			atts.addAttribute(null, ATTR_COL, ATTR_COL, null, String.valueOf(col));
-			atts.addAttribute(null, ATTR_CELLREF, ATTR_CELLREF, null, new CellReference(row, col).formatAsString(false));
+			atts.addAttribute(null, SpreadsheetConstants.ATTR_DATATYPE, SpreadsheetConstants.ATTR_DATATYPE, null, SpreadsheetConstants.ATTR_DATATYPE_FORMULA);
+			atts.addAttribute(null, SpreadsheetConstants.ATTR_ROW, SpreadsheetConstants.ATTR_ROW, null, String.valueOf(row));
+			atts.addAttribute(null, SpreadsheetConstants.ATTR_COL, SpreadsheetConstants.ATTR_COL, null, String.valueOf(col));
+			atts.addAttribute(null, SpreadsheetConstants.ATTR_CELLREF, SpreadsheetConstants.ATTR_CELLREF, null, new CellReference(row, col).formatAsString(false));
 
 			CellType cellType = fRec.getCachedResultTypeEnum();
 
 			if (CellType.NUMERIC == cellType) {
-				atts.addAttribute(null, ATTR_FORMULATYPE, ATTR_FORMULATYPE, null, CellType.NUMERIC.toString());
-				atts.addAttribute(null, ATTR_FINALVALUE, ATTR_FINALVALUE, null, formatTrackingListener.formatNumberDateCell(fRec));
+				atts.addAttribute(null, SpreadsheetConstants.ATTR_FORMULATYPE, SpreadsheetConstants.ATTR_FORMULATYPE, null, CellType.NUMERIC.toString());
+				atts.addAttribute(null, SpreadsheetConstants.ATTR_FINALVALUE, SpreadsheetConstants.ATTR_FINALVALUE, null, formatTrackingListener.formatNumberDateCell(fRec));
 
-				handler.startElement(null, TAG_CELL, TAG_CELL, atts);
-				handler.endElement(null, TAG_CELL, TAG_CELL);
+				handler.startElement(null, SpreadsheetConstants.TAG_CELL, SpreadsheetConstants.TAG_CELL, atts);
+				handler.endElement(null, SpreadsheetConstants.TAG_CELL, SpreadsheetConstants.TAG_CELL);
 			} else if (CellType.STRING == cellType) {
 				// the next record after this should be a StringRecord. get the finalValue from there
-				atts.addAttribute(null, ATTR_FORMULATYPE, ATTR_FORMULATYPE, null, CellType.STRING.toString());
+				atts.addAttribute(null, SpreadsheetConstants.ATTR_FORMULATYPE, SpreadsheetConstants.ATTR_FORMULATYPE, null, CellType.STRING.toString());
 				lastAttributes = atts;
 			} else {
 				genericStartEndElement(theRecord, true, true);
@@ -729,14 +717,14 @@ public class Excel97To2003Reader {
 			String origVal = sstRecord.getString(fRec.getSSTIndex()).getString();
 
 			AttributesImpl atts = new AttributesImpl();
-			atts.addAttribute(null, ATTR_DATATYPE, ATTR_DATATYPE, null, "string");
-			atts.addAttribute(null, ATTR_ROW, ATTR_ROW, null, String.valueOf(row));
-			atts.addAttribute(null, ATTR_COL, ATTR_COL, null, String.valueOf(col));
-			atts.addAttribute(null, ATTR_CELLREF, ATTR_CELLREF, null, new CellReference(row, col).formatAsString(false));
-			atts.addAttribute(null, ATR_RAWVALUE, ATR_RAWVALUE, null, String.valueOf(origVal));
+			atts.addAttribute(null, SpreadsheetConstants.ATTR_DATATYPE, SpreadsheetConstants.ATTR_DATATYPE, null, SpreadsheetConstants.ATTR_DATATYPE_STRING);
+			atts.addAttribute(null, SpreadsheetConstants.ATTR_ROW, SpreadsheetConstants.ATTR_ROW, null, String.valueOf(row));
+			atts.addAttribute(null, SpreadsheetConstants.ATTR_COL, SpreadsheetConstants.ATTR_COL, null, String.valueOf(col));
+			atts.addAttribute(null, SpreadsheetConstants.ATTR_CELLREF, SpreadsheetConstants.ATTR_CELLREF, null, new CellReference(row, col).formatAsString(false));
+			atts.addAttribute(null, SpreadsheetConstants.ATR_RAWVALUE, SpreadsheetConstants.ATR_RAWVALUE, null, String.valueOf(origVal));
 
-			handler.startElement(null, TAG_CELL, TAG_CELL, atts);
-			handler.endElement(null, TAG_CELL, TAG_CELL);
+			handler.startElement(null, SpreadsheetConstants.TAG_CELL, SpreadsheetConstants.TAG_CELL, atts);
+			handler.endElement(null, SpreadsheetConstants.TAG_CELL, SpreadsheetConstants.TAG_CELL);
 		}
 
 		private void processLEFT_MARGINRecord(Record theRecord) throws Exception {
@@ -794,15 +782,15 @@ public class Excel97To2003Reader {
 			double origVal = fRec.getValue();
 
 			AttributesImpl atts = new AttributesImpl();
-			atts.addAttribute(null, ATTR_DATATYPE, ATTR_DATATYPE, null, "number");
-			atts.addAttribute(null, ATTR_ROW, ATTR_ROW, null, String.valueOf(row));
-			atts.addAttribute(null, ATTR_COL, ATTR_COL, null, String.valueOf(col));
-			atts.addAttribute(null, ATTR_CELLREF, ATTR_CELLREF, null, new CellReference(row, col).formatAsString(false));
-			atts.addAttribute(null, ATR_RAWVALUE, ATR_RAWVALUE, null, String.valueOf(origVal));
-			atts.addAttribute(null, ATTR_FINALVALUE, ATTR_FINALVALUE, null, formatTrackingListener.formatNumberDateCell(fRec));
+			atts.addAttribute(null, SpreadsheetConstants.ATTR_DATATYPE, SpreadsheetConstants.ATTR_DATATYPE, null, SpreadsheetConstants.ATTR_DATATYPE_NUMBER);
+			atts.addAttribute(null, SpreadsheetConstants.ATTR_ROW, SpreadsheetConstants.ATTR_ROW, null, String.valueOf(row));
+			atts.addAttribute(null, SpreadsheetConstants.ATTR_COL, SpreadsheetConstants.ATTR_COL, null, String.valueOf(col));
+			atts.addAttribute(null, SpreadsheetConstants.ATTR_CELLREF, SpreadsheetConstants.ATTR_CELLREF, null, new CellReference(row, col).formatAsString(false));
+			atts.addAttribute(null, SpreadsheetConstants.ATR_RAWVALUE, SpreadsheetConstants.ATR_RAWVALUE, null, String.valueOf(origVal));
+			atts.addAttribute(null, SpreadsheetConstants.ATTR_FINALVALUE, SpreadsheetConstants.ATTR_FINALVALUE, null, formatTrackingListener.formatNumberDateCell(fRec));
 
-			handler.startElement(null, TAG_CELL, TAG_CELL, atts);
-			handler.endElement(null, TAG_CELL, TAG_CELL);
+			handler.startElement(null, SpreadsheetConstants.TAG_CELL, SpreadsheetConstants.TAG_CELL, atts);
+			handler.endElement(null, SpreadsheetConstants.TAG_CELL, SpreadsheetConstants.TAG_CELL);
 		}
 
 		private void processNUMBER_FORMAT_INDEXRecord(Record theRecord) throws Exception {
@@ -958,10 +946,10 @@ public class Excel97To2003Reader {
 			StringRecord sRec = (StringRecord) theRecord;
 			AttributesImpl atts = lastAttributes;
 			lastAttributes = null;
-			atts.addAttribute(null, ATTR_FINALVALUE, ATTR_FINALVALUE, null, sRec.getString());
+			atts.addAttribute(null, SpreadsheetConstants.ATTR_FINALVALUE, SpreadsheetConstants.ATTR_FINALVALUE, null, sRec.getString());
 
-			handler.startElement(null, TAG_CELL, TAG_CELL, atts);
-			handler.endElement(null, TAG_CELL, TAG_CELL);
+			handler.startElement(null, SpreadsheetConstants.TAG_CELL, SpreadsheetConstants.TAG_CELL, atts);
+			handler.endElement(null, SpreadsheetConstants.TAG_CELL, SpreadsheetConstants.TAG_CELL);
 		}
 
 		private void processSTYLERecord(Record theRecord) throws Exception {
