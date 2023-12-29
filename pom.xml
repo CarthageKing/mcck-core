@@ -16,6 +16,7 @@
 		<module>mcck-core-spreadsheet-excel</module>
 		<module>mcck-core-spreadsheet</module>
 		<module>mcck-core-test</module>
+		<module>mcck-core-httpclient-commontest</module>
 	</modules>
 
 
@@ -38,6 +39,12 @@
 			<dependency>
 				<groupId>org.carthageking.mc</groupId>
 				<artifactId>mcck-core-httpclient</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.carthageking.mc</groupId>
+				<artifactId>mcck-core-httpclient-commontest</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
 			</dependency>
 
