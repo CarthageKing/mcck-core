@@ -19,6 +19,7 @@
 		<module>mcck-core-httpclient-commontest</module>
 		<module>mcck-core-httpclient-jse-urlconnection</module>
 		<module>mcck-core-httpclient-java11-httpclient</module>
+		<module>mcck-core-httpclient-jetty</module>
 	</modules>
 
 
