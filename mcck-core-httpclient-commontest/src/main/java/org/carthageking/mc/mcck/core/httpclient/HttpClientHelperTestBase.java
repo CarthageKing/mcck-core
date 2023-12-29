@@ -39,6 +39,7 @@ public class HttpClientHelperTestBase {
 				result.getStatusLine().getCode(), result.getStatusLine().getMessage(),
 				result.getBodyAsString().length());
 			Assertions.assertEquals(true, result.getBody().isPresent());
+			Assertions.assertEquals("yahello", result.getBodyAsString());
 			Assertions.assertEquals(202, result.getStatusLine().getCode());
 
 			wireMockServer.resetAll();
@@ -60,6 +61,7 @@ public class HttpClientHelperTestBase {
 				result.getStatusLine().getCode(), result.getStatusLine().getMessage(),
 				result.getBodyAsString().length());
 			Assertions.assertEquals(true, result.getBody().isPresent());
+			Assertions.assertEquals("", result.getBodyAsString());
 			Assertions.assertEquals(204, result.getStatusLine().getCode());
 
 			wireMockServer.resetAll();
@@ -85,6 +87,7 @@ public class HttpClientHelperTestBase {
 				result.getStatusLine().getCode(), result.getStatusLine().getMessage(),
 				result.getBodyAsString().length());
 			Assertions.assertEquals(true, result.getBody().isPresent());
+			Assertions.assertEquals("cognac", result.getBodyAsString());
 			Assertions.assertEquals(212, result.getStatusLine().getCode());
 
 			wireMockServer.resetAll();
@@ -106,6 +109,7 @@ public class HttpClientHelperTestBase {
 				result.getStatusLine().getCode(), result.getStatusLine().getMessage(),
 				result.getBodyAsString().length());
 			Assertions.assertEquals(true, result.getBody().isPresent());
+			Assertions.assertEquals("yahello", result.getBodyAsString());
 			Assertions.assertEquals(202, result.getStatusLine().getCode());
 
 			wireMockServer.resetAll();
@@ -132,6 +136,7 @@ public class HttpClientHelperTestBase {
 				result.getStatusLine().getCode(), result.getStatusLine().getMessage(),
 				result.getBodyAsString().length());
 			Assertions.assertEquals(true, result.getBody().isPresent());
+			Assertions.assertEquals("cognac", result.getBodyAsString());
 			Assertions.assertEquals(207, result.getStatusLine().getCode());
 			Assertions.assertEquals(1, result.getHeaders().get("X-returned").size());
 			Assertions.assertEquals("returnok", result.getHeaders().get("X-returned").get(0));
@@ -155,6 +160,7 @@ public class HttpClientHelperTestBase {
 				result.getStatusLine().getCode(), result.getStatusLine().getMessage(),
 				result.getBodyAsString().length());
 			Assertions.assertEquals(true, result.getBody().isPresent());
+			Assertions.assertEquals("yahello", result.getBodyAsString());
 			Assertions.assertEquals(209, result.getStatusLine().getCode());
 
 			wireMockServer.resetAll();
@@ -181,6 +187,7 @@ public class HttpClientHelperTestBase {
 				result.getStatusLine().getCode(), result.getStatusLine().getMessage(),
 				result.getBodyAsString().length());
 			Assertions.assertEquals(true, result.getBody().isPresent());
+			Assertions.assertEquals("cognac", result.getBodyAsString());
 			Assertions.assertEquals(203, result.getStatusLine().getCode());
 			Assertions.assertEquals(1, result.getHeaders().get("X-returned").size());
 			Assertions.assertEquals("returnok", result.getHeaders().get("X-returned").get(0));
@@ -204,6 +211,7 @@ public class HttpClientHelperTestBase {
 				result.getStatusLine().getCode(), result.getStatusLine().getMessage(),
 				result.getBodyAsString().length());
 			Assertions.assertEquals(true, result.getBody().isPresent());
+			Assertions.assertEquals("yahello", result.getBodyAsString());
 			Assertions.assertEquals(213, result.getStatusLine().getCode());
 
 			wireMockServer.resetAll();
@@ -230,6 +238,7 @@ public class HttpClientHelperTestBase {
 				result.getStatusLine().getCode(), result.getStatusLine().getMessage(),
 				result.getBodyAsString().length());
 			Assertions.assertEquals(true, result.getBody().isPresent());
+			Assertions.assertEquals("cognac", result.getBodyAsString());
 			Assertions.assertEquals(223, result.getStatusLine().getCode());
 			Assertions.assertEquals(1, result.getHeaders().get("X-returned").size());
 			Assertions.assertEquals("returnok", result.getHeaders().get("X-returned").get(0));

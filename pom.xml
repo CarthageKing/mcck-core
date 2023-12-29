@@ -20,6 +20,7 @@
 		<module>mcck-core-httpclient-jse-urlconnection</module>
 		<module>mcck-core-httpclient-java11-httpclient</module>
 		<module>mcck-core-httpclient-jetty</module>
+		<module>mcck-core-httpclient-apache-httpclient4</module>
 	</modules>
 
 
