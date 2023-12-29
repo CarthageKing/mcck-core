@@ -52,4 +52,10 @@ public final class McckIOUtil {
 			}
 		}
 	}
+
+	public static String readAllAsString(InputStream is, Charset charset) throws IOException {
+		ByteArrayOutputStream bos = new ByteArrayOutputStream(1024);
+		is.transferTo(bos);
+		return bos.toString(charset);
+	}
 }

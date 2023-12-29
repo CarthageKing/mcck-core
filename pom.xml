@@ -17,6 +17,7 @@
 		<module>mcck-core-spreadsheet</module>
 		<module>mcck-core-test</module>
 		<module>mcck-core-httpclient-commontest</module>
+		<module>mcck-core-httpclient-jse-urlconnection</module>
 	</modules>
 
 
