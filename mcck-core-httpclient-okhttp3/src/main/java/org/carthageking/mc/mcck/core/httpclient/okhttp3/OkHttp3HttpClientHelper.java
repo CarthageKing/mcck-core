@@ -2,7 +2,6 @@ package org.carthageking.mc.mcck.core.httpclient.okhttp3;
 
 import java.io.IOException;
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
 
 import org.apache.http.HttpHeaders;
 import org.carthageking.mc.mcck.core.httpclient.HttpClientHelper;
@@ -12,6 +11,7 @@ import org.carthageking.mc.mcck.core.httpclient.HttpMimeTypes;
 import org.carthageking.mc.mcck.core.httpclient.StatusLine;
 
 import okhttp3.HttpUrl;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -19,6 +19,8 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 public class OkHttp3HttpClientHelper implements HttpClientHelper {
+
+	private static final MediaType APPLICATION_JSON_UTF8 = MediaType.get(HttpMimeTypes.APPLICATION_JSON_UTF8.getMimeTypeAsString());
 
 	private final OkHttpClient httpClient;
 
@@ -35,6 +37,18 @@ public class OkHttp3HttpClientHelper implements HttpClientHelper {
 		Request.Builder httpReqBuilder = new Request.Builder()
 			.get()
 			.url(HttpUrl.get(requestUri));
+		return doRequestNoBody(httpHdrModHelper, httpReqBuilder);
+	}
+
+	@Override
+	public HttpClientHelperResult<String> doDelete(URI requestUri, HttpHeadersModifierHelper httpHdrModHelper) {
+		Request.Builder httpReqBuilder = new Request.Builder()
+			.delete()
+			.url(HttpUrl.get(requestUri));
+		return doRequestNoBody(httpHdrModHelper, httpReqBuilder);
+	}
+
+	private HttpClientHelperResult<String> doRequestNoBody(HttpHeadersModifierHelper httpHdrModHelper, Request.Builder httpReqBuilder) {
 		if (null != httpHdrModHelper) {
 			httpHdrModHelper.modify(createHttpHeaderModifier(httpReqBuilder));
 		} else {
@@ -46,8 +60,32 @@ public class OkHttp3HttpClientHelper implements HttpClientHelper {
 	@Override
 	public HttpClientHelperResult<String> doPost(URI requestUri, String body, HttpHeadersModifierHelper httpHdrModHelper) {
 		Request.Builder httpReqBuilder = new Request.Builder()
-			.post(RequestBody.create(body.getBytes(StandardCharsets.UTF_8)))
+			.post(createStringRequestBody(body))
 			.url(HttpUrl.get(requestUri));
+		return doRequestWithBody(httpHdrModHelper, httpReqBuilder);
+	}
+
+	@Override
+	public HttpClientHelperResult<String> doPut(URI requestUri, String body, HttpHeadersModifierHelper httpHdrModHelper) {
+		Request.Builder httpReqBuilder = new Request.Builder()
+			.put(createStringRequestBody(body))
+			.url(HttpUrl.get(requestUri));
+		return doRequestWithBody(httpHdrModHelper, httpReqBuilder);
+	}
+
+	@Override
+	public HttpClientHelperResult<String> doPatch(URI requestUri, String body, HttpHeadersModifierHelper httpHdrModHelper) {
+		Request.Builder httpReqBuilder = new Request.Builder()
+			.patch(createStringRequestBody(body))
+			.url(HttpUrl.get(requestUri));
+		return doRequestWithBody(httpHdrModHelper, httpReqBuilder);
+	}
+
+	private RequestBody createStringRequestBody(String body) {
+		return RequestBody.create(body, APPLICATION_JSON_UTF8);
+	}
+
+	private HttpClientHelperResult<String> doRequestWithBody(HttpHeadersModifierHelper httpHdrModHelper, Request.Builder httpReqBuilder) {
 		if (null != httpHdrModHelper) {
 			httpHdrModHelper.modify(createHttpHeaderModifier(httpReqBuilder));
 		} else {
