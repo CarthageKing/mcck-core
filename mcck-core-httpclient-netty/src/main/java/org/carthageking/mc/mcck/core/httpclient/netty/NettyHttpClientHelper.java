@@ -164,6 +164,7 @@ public class NettyHttpClientHelper implements HttpClientHelper, Closeable, AutoC
 						if (hci.getState().canAcceptRequests()) {
 							channel[0] = c;
 							hci.reset();
+							hci.setState(ChannelInfoState.TAKEN);
 							break;
 						}
 					}
@@ -330,7 +331,7 @@ public class NettyHttpClientHelper implements HttpClientHelper, Closeable, AutoC
 	}
 
 	private enum ChannelInfoState {
-		READY(true), RECEIVED(false), DONE(true);
+		READY(true), TAKEN(false), RECEIVED(false), DONE(true);
 
 		private boolean canAcceptRequests;
 
