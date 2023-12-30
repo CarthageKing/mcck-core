@@ -22,6 +22,7 @@
 		<module>mcck-core-httpclient-jetty</module>
 		<module>mcck-core-httpclient-apache-httpclient4</module>
 		<module>mcck-core-httpclient-apache-httpclient5</module>
+		<module>mcck-core-httpclient-netty</module>
 	</modules>
 
 
