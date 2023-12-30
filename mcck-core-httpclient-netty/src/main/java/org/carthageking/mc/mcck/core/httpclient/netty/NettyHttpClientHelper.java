@@ -12,6 +12,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.Consumer;
 
 import org.apache.http.HttpHeaders;
 import org.carthageking.mc.mcck.core.httpclient.HttpClientHelper;
@@ -58,7 +61,7 @@ public class NettyHttpClientHelper implements HttpClientHelper, Closeable, AutoC
 
 	private volatile boolean closing;
 	private EventLoopGroup eventLoopGroup;
-	private ConcurrentMap<HostAndPort, List<Channel>> channelMap = new ConcurrentHashMap<>();
+	private ConcurrentMap<HostAndPort, ChannelList> channelMap = new ConcurrentHashMap<>();
 	private ConcurrentMap<ChannelId, HttpChannelInfo> channelIdMap = new ConcurrentHashMap<>();
 
 	public NettyHttpClientHelper(Bootstrap bootstrap) {
@@ -151,37 +154,37 @@ public class NettyHttpClientHelper implements HttpClientHelper, Closeable, AutoC
 			throw new IllegalStateException("This object " + this + " is in the process of being closed!");
 		}
 		HostAndPort hap = new HostAndPort(requestUri.getHost(), port);
-		List<Channel> lst = channelMap.computeIfAbsent(hap, k -> new ArrayList<>());
-		Channel channel = null;
-		synchronized (lst) {
-			while (null == channel) {
-				for (Channel c : lst) {
+		ChannelList clst = channelMap.computeIfAbsent(hap, k -> new ChannelList());
+		Channel[] channel = { null };
+		doSynchronize(clst.getLock(), l -> {
+			while (null == channel[0]) {
+				for (Channel c : clst.getChannels()) {
 					if (c.isActive()) {
 						HttpChannelInfo hci = channelIdMap.get(c.id());
 						if (hci.getState().canAcceptRequests()) {
-							channel = c;
+							channel[0] = c;
 							hci.reset();
 							break;
 						}
 					}
 				}
-				if (null == channel && lst.size() < numRoutesPerHostAndPort) {
-					channel = bootstrap.connect(hap.getHost(), hap.getPort()).awaitUninterruptibly().channel();
-					lst.add(channel);
+				if (null == channel[0] && clst.getChannels().size() < numRoutesPerHostAndPort) {
+					channel[0] = bootstrap.connect(hap.getHost(), hap.getPort()).awaitUninterruptibly().channel();
+					clst.getChannels().add(channel[0]);
 
-					HttpChannelInfo hci = new HttpChannelInfo(channel.id(), lst);
+					HttpChannelInfo hci = new HttpChannelInfo(channel[0].id(), clst);
 					channelIdMap.put(hci.getChannelId(), hci);
 				}
-				if (null == channel) {
+				if (null == channel[0]) {
 					try {
-						lst.wait();
+						clst.getLockCondition().await();
 					} catch (InterruptedException e) {
 						throw new HttpClientHelperException(e);
 					}
 				}
 			}
-		}
-		return channel;
+		});
+		return channel[0];
 	}
 
 	private HttpClientHelperResult<String> doRequestResponse(URI requestUri,
@@ -212,23 +215,25 @@ public class NettyHttpClientHelper implements HttpClientHelper, Closeable, AutoC
 		}
 		HttpChannelInfo hci = channelIdMap.get(channel.id());
 		channel.writeAndFlush(httpReq);
-		try {
-			synchronized (hci) {
-				while (!ChannelInfoState.RECEIVED.equals(hci.getState())) {
-					hci.wait();
+
+		doSynchronize(hci.getLock(), l -> {
+			while (!ChannelInfoState.RECEIVED.equals(hci.getState())) {
+				try {
+					hci.getLockCondition().await();
+				} catch (InterruptedException e) {
+					throw new HttpClientHelperException(e);
 				}
 			}
-		} catch (InterruptedException e) {
-			throw new HttpClientHelperException(e);
-		}
+		});
+
 		HttpResponse httpRsp = hci.getHttpResponse();
 		StatusLine status = new StatusLine(httpRsp.status().code(), httpRsp.status().reasonPhrase());
 		String rspBody = createStringRequestBody(hci);
 		HttpClientHelperResult<String> result = new HttpClientHelperResult<>(status, toMap(httpRsp.headers()), rspBody);
-		synchronized (hci.getLockObj()) {
+		doSynchronize(hci.getChannelList().getLock(), l -> {
 			hci.setState(ChannelInfoState.DONE);
-			hci.getLockObj().notifyAll();
-		}
+			hci.getChannelList().getLockCondition().signalAll();
+		});
 		return result;
 	}
 
@@ -245,6 +250,15 @@ public class NettyHttpClientHelper implements HttpClientHelper, Closeable, AutoC
 			lst.add(ent.getValue());
 		}
 		return map;
+	}
+
+	private void doSynchronize(ReentrantLock lock, Consumer<ReentrantLock> consumer) {
+		try {
+			lock.lock();
+			consumer.accept(lock);
+		} finally {
+			lock.unlock();
+		}
 	}
 
 	private HttpHeadersModifier createHttpHeaderModifier(HttpRequest httpReq) {
@@ -304,10 +318,10 @@ public class NettyHttpClientHelper implements HttpClientHelper, Closeable, AutoC
 					return true;
 				});
 				if (msg instanceof LastHttpContent) {
-					synchronized (hci) {
+					doSynchronize(hci.getLock(), l -> {
 						hci.setState(ChannelInfoState.RECEIVED);
-						hci.notify();
-					}
+						hci.getLockCondition().signal();
+					});
 				}
 			} else {
 				throw new IllegalArgumentException("Unsupported object type " + msg.getClass());
@@ -329,16 +343,51 @@ public class NettyHttpClientHelper implements HttpClientHelper, Closeable, AutoC
 		}
 	}
 
+	private static class ChannelList {
+		private final List<Channel> channels = new ArrayList<>();
+		private final ReentrantLock lock;
+		private final Condition lockCondition;
+
+		public ChannelList() {
+			this(true);
+		}
+
+		public ChannelList(boolean fairLock) {
+			lock = new ReentrantLock(fairLock);
+			lockCondition = lock.newCondition();
+		}
+
+		public List<Channel> getChannels() {
+			return channels;
+		}
+
+		public ReentrantLock getLock() {
+			return lock;
+		}
+
+		public Condition getLockCondition() {
+			return lockCondition;
+		}
+	}
+
 	private static class HttpChannelInfo {
 		private volatile ChannelInfoState state = ChannelInfoState.READY;
 		private final ChannelId channelId;
-		private final List<Channel> lockObj;
+		private final ChannelList channelList;
+		private final ReentrantLock lock;
+		private final Condition lockCondition;
 		private HttpResponse httpResponse;
 		private ByteArrayOutputStream byteArrayOS = new ByteArrayOutputStream(1024);
 
-		public HttpChannelInfo(ChannelId channelId, List<Channel> lockObj) {
+		public HttpChannelInfo(ChannelId channelId, ChannelList channelList) {
+			this(channelId, channelList, true);
+		}
+
+		public HttpChannelInfo(ChannelId channelId, ChannelList channelList, boolean fairLock) {
 			this.channelId = channelId;
-			this.lockObj = lockObj;
+			this.channelList = channelList;
+			lock = new ReentrantLock(fairLock);
+			lockCondition = lock.newCondition();
 		}
 
 		public void reset() {
@@ -371,8 +420,16 @@ public class NettyHttpClientHelper implements HttpClientHelper, Closeable, AutoC
 			return channelId;
 		}
 
-		public List<Channel> getLockObj() {
-			return lockObj;
+		public ChannelList getChannelList() {
+			return channelList;
+		}
+
+		public ReentrantLock getLock() {
+			return lock;
+		}
+
+		public Condition getLockCondition() {
+			return lockCondition;
 		}
 	}
 }
