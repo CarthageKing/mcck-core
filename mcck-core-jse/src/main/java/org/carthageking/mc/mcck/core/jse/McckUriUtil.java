@@ -26,14 +26,16 @@ import java.util.Map;
 
 public final class McckUriUtil {
 
+	private static final int DEFAULT_HTTPS_PORT = 443;
+	private static final int DEFAULT_HTTP_PORT = 80;
 	private static final Map<String, Integer> SCHEME_DEFAULT_PORTS;
 
 	// https://oeis.org/wiki/URL
 	// for now, limited only to HTTP/HTTPS
 	static {
 		SCHEME_DEFAULT_PORTS = new HashMap<>();
-		SCHEME_DEFAULT_PORTS.put("http", 80);
-		SCHEME_DEFAULT_PORTS.put("https", 443);
+		SCHEME_DEFAULT_PORTS.put("http", DEFAULT_HTTP_PORT);
+		SCHEME_DEFAULT_PORTS.put("https", DEFAULT_HTTPS_PORT);
 	}
 
 	private McckUriUtil() {

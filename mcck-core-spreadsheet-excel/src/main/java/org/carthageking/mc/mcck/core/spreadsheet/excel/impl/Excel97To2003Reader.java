@@ -111,7 +111,7 @@ public class Excel97To2003Reader implements SpreadsheetReader {
 
 		private AttributesImpl lastAttributes;
 
-		public InternalHssfListener(ContentHandler handler) {
+		InternalHssfListener(ContentHandler handler) {
 			this.handler = handler;
 			processors.put(HSSFRecordTypes.AREA.getSid(), this::processAREARecord);
 			processors.put(HSSFRecordTypes.AREA_FORMAT.getSid(), this::processAREA_FORMATRecord);

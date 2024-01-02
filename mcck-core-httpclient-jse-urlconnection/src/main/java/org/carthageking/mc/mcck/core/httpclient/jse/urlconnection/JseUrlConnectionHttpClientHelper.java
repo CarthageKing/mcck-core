@@ -41,7 +41,7 @@ import org.carthageking.mc.mcck.core.jse.McckIOUtil;
  * This class does not support PATCH method as per https://bugs.openjdk.org/browse/JDK-7016595.
  * There is a workaround which involves reflection as per https://stackoverflow.com/a/46323891
  * but that will have to be coded by the user of this library.
- * </p> 
+ * </p>
  * <p>
  * There is also another workaround but it requires the receiving server to recognize the
  * additional request headers: https://stackoverflow.com/a/32503192

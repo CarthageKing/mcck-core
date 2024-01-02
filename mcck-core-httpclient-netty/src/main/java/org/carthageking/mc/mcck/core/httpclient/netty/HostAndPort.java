@@ -26,7 +26,7 @@ class HostAndPort implements Comparable<HostAndPort> {
 	private String host;
 	private int port;
 
-	public HostAndPort(String host, int port) {
+	HostAndPort(String host, int port) {
 		this.host = host;
 		this.port = port;
 	}

@@ -24,6 +24,7 @@
 		<module>mcck-core-httpclient-apache-httpclient5</module>
 		<module>mcck-core-httpclient-netty</module>
 		<module>mcck-core-MAVEN-AGGREGATOR-JACOCO</module>
+		<module>mcck-core-checkstyle</module>
 	</modules>
 
 
@@ -38,6 +39,7 @@
 
 
 		<maven.compiler.plugin.version>3.12.1</maven.compiler.plugin.version>
+		<maven.checkstyle.plugin.version>3.3.1</maven.checkstyle.plugin.version>
 		<jacoco.maven.plugin.version>0.8.11</jacoco.maven.plugin.version>
 		<maven.surefire.plugin.version>3.2.3</maven.surefire.plugin.version>
 		<maven.surefire.report.plugin.version>3.2.3</maven.surefire.report.plugin.version>
@@ -58,6 +60,12 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>org.carthageking.mc</groupId>
+				<artifactId>mcck-core-checkstyle</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+
 			<dependency>
 				<groupId>org.carthageking.mc</groupId>
 				<artifactId>mcck-core-csv</artifactId>
@@ -238,6 +246,22 @@
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
 					<version>${jacoco.maven.plugin.version}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-checkstyle-plugin</artifactId>
+					<version>${maven.checkstyle.plugin.version}</version>
+					<dependencies>
+						<dependency>
+							<groupId>org.carthageking.mc</groupId>
+							<artifactId>mcck-core-checkstyle</artifactId>
+							<version>${project.version}</version>
+						</dependency>
+					</dependencies>
+					<configuration>
+						<configLocation>checkstyle/sun_checks_customized.xml</configLocation>
+					</configuration>
 				</plugin>
 
 				<plugin>

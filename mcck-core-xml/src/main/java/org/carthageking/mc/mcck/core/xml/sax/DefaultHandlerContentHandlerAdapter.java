@@ -75,12 +75,12 @@ public class DefaultHandlerContentHandlerAdapter extends DefaultHandler {
 	}
 
 	@Override
-	public void characters(char ch[], int start, int length) throws SAXException {
+	public void characters(char[] ch, int start, int length) throws SAXException {
 		handler.characters(ch, start, length);
 	}
 
 	@Override
-	public void ignorableWhitespace(char ch[], int start, int length) throws SAXException {
+	public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {
 		handler.ignorableWhitespace(ch, start, length);
 	}
 

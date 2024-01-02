@@ -73,7 +73,7 @@ import io.netty.handler.ssl.SslContext;
 
 public class NettyHttpClientHelper implements HttpClientHelper, Closeable, AutoCloseable {
 
-	private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(NettyHttpClientHelper.class);
+	private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(NettyHttpClientHelper.class);
 
 	private final Bootstrap bootstrap;
 	private final SslContext sslContext;
@@ -111,7 +111,7 @@ public class NettyHttpClientHelper implements HttpClientHelper, Closeable, AutoC
 			closeChannels();
 			eventLoopGroup.shutdownGracefully().get();
 		} catch (Exception e) {
-			log.warn("Error while closing " + this + ":\n", e);
+			LOG.warn("Error while closing " + this + ":\n", e);
 		}
 		eventLoopGroup = null;
 	}
@@ -301,7 +301,7 @@ public class NettyHttpClientHelper implements HttpClientHelper, Closeable, AutoC
 
 		private final SslContext innerSslCtx;
 
-		public HttpChannelIniter(SslContext innerSslCtx) {
+		HttpChannelIniter(SslContext innerSslCtx) {
 			this.innerSslCtx = innerSslCtx;
 		}
 
@@ -321,7 +321,7 @@ public class NettyHttpClientHelper implements HttpClientHelper, Closeable, AutoC
 
 	private class HttpResponseChannelHandler extends SimpleChannelInboundHandler<HttpObject> {
 
-		public HttpResponseChannelHandler() {
+		HttpResponseChannelHandler() {
 			// noop
 		}
 
@@ -355,7 +355,7 @@ public class NettyHttpClientHelper implements HttpClientHelper, Closeable, AutoC
 
 		private boolean canAcceptRequests;
 
-		private ChannelInfoState(boolean canAcceptRequests) {
+		ChannelInfoState(boolean canAcceptRequests) {
 			this.canAcceptRequests = canAcceptRequests;
 		}
 
@@ -369,11 +369,11 @@ public class NettyHttpClientHelper implements HttpClientHelper, Closeable, AutoC
 		private final ReentrantLock lock;
 		private final Condition lockCondition;
 
-		public ChannelList() {
+		ChannelList() {
 			this(true);
 		}
 
-		public ChannelList(boolean fairLock) {
+		ChannelList(boolean fairLock) {
 			lock = new ReentrantLock(fairLock);
 			lockCondition = lock.newCondition();
 		}
@@ -392,19 +392,21 @@ public class NettyHttpClientHelper implements HttpClientHelper, Closeable, AutoC
 	}
 
 	private static class HttpChannelInfo {
+		private static final int DEFAULT_BUFFER_SIZE = 1024;
+
 		private volatile ChannelInfoState state = ChannelInfoState.READY;
 		private final ChannelId channelId;
 		private final ChannelList channelList;
 		private final ReentrantLock lock;
 		private final Condition lockCondition;
 		private HttpResponse httpResponse;
-		private ByteArrayOutputStream byteArrayOS = new ByteArrayOutputStream(1024);
+		private ByteArrayOutputStream byteArrayOS = new ByteArrayOutputStream(DEFAULT_BUFFER_SIZE);
 
-		public HttpChannelInfo(ChannelId channelId, ChannelList channelList) {
+		HttpChannelInfo(ChannelId channelId, ChannelList channelList) {
 			this(channelId, channelList, true);
 		}
 
-		public HttpChannelInfo(ChannelId channelId, ChannelList channelList, boolean fairLock) {
+		HttpChannelInfo(ChannelId channelId, ChannelList channelList, boolean fairLock) {
 			this.channelId = channelId;
 			this.channelList = channelList;
 			lock = new ReentrantLock(fairLock);

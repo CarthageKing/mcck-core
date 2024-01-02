@@ -33,7 +33,7 @@ public enum HttpMimeTypes {
 
 	private final String mimeTypeAsString;
 
-	private HttpMimeTypes(String mimeTypeAsString) {
+	HttpMimeTypes(String mimeTypeAsString) {
 		this.mimeTypeAsString = mimeTypeAsString;
 	}
 

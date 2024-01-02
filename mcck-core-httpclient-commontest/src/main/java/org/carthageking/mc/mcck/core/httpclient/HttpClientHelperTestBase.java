@@ -28,7 +28,7 @@ import com.github.tomakehurst.wiremock.client.WireMock;
 
 public class HttpClientHelperTestBase {
 
-	private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(HttpClientHelperTestBase.class);
+	private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(HttpClientHelperTestBase.class);
 
 	protected WireMockServer wireMockServer;
 	protected int port;
@@ -37,7 +37,7 @@ public class HttpClientHelperTestBase {
 		wireMockServer = new WireMockServer(0);
 		wireMockServer.start();
 		port = wireMockServer.port();
-		log.trace("Started wiremock on port {}", port);
+		LOG.trace("Started wiremock on port {}", port);
 	}
 
 	protected void tearDownBase() throws Exception {
@@ -55,7 +55,7 @@ public class HttpClientHelperTestBase {
 				URIBuilder ub = new URIBuilder("http://localhost:" + port + "/sampleGet");
 				return ub.build();
 			}));
-			log.trace("Got {} [{}] response string with length of {}",
+			LOG.trace("Got {} [{}] response string with length of {}",
 				result.getStatusLine().getCode(), result.getStatusLine().getMessage(),
 				result.getBodyAsString().length());
 			Assertions.assertEquals(true, result.getBody().isPresent());
@@ -77,7 +77,7 @@ public class HttpClientHelperTestBase {
 				URIBuilder ub = new URIBuilder("http://localhost:" + port + "/sampleDelete");
 				return ub.build();
 			}));
-			log.trace("Got {} [{}] response string with length of {}",
+			LOG.trace("Got {} [{}] response string with length of {}",
 				result.getStatusLine().getCode(), result.getStatusLine().getMessage(),
 				result.getBodyAsString().length());
 			Assertions.assertEquals(true, result.getBody().isPresent());
@@ -103,7 +103,7 @@ public class HttpClientHelperTestBase {
 				hdrs.setHeader(header1, "HHH");
 				hdrs.addHeader(header2, "JJJ");
 			});
-			log.trace("Got {} [{}] response string with length of {}",
+			LOG.trace("Got {} [{}] response string with length of {}",
 				result.getStatusLine().getCode(), result.getStatusLine().getMessage(),
 				result.getBodyAsString().length());
 			Assertions.assertEquals(true, result.getBody().isPresent());
@@ -125,7 +125,7 @@ public class HttpClientHelperTestBase {
 				URIBuilder ub = new URIBuilder("http://localhost:" + port + "/samplePost");
 				return ub.build();
 			}), "included");
-			log.trace("Got {} [{}] response string with length of {}",
+			LOG.trace("Got {} [{}] response string with length of {}",
 				result.getStatusLine().getCode(), result.getStatusLine().getMessage(),
 				result.getBodyAsString().length());
 			Assertions.assertEquals(true, result.getBody().isPresent());
@@ -152,7 +152,7 @@ public class HttpClientHelperTestBase {
 				hdrs.setHeader(header1, "HHH");
 				hdrs.addHeader(header2, "JJJ");
 			});
-			log.trace("Got {} [{}] response string with length of {}",
+			LOG.trace("Got {} [{}] response string with length of {}",
 				result.getStatusLine().getCode(), result.getStatusLine().getMessage(),
 				result.getBodyAsString().length());
 			Assertions.assertEquals(true, result.getBody().isPresent());
@@ -176,7 +176,7 @@ public class HttpClientHelperTestBase {
 				URIBuilder ub = new URIBuilder("http://localhost:" + port + "/samplePut");
 				return ub.build();
 			}), "included");
-			log.trace("Got {} [{}] response string with length of {}",
+			LOG.trace("Got {} [{}] response string with length of {}",
 				result.getStatusLine().getCode(), result.getStatusLine().getMessage(),
 				result.getBodyAsString().length());
 			Assertions.assertEquals(true, result.getBody().isPresent());
@@ -203,7 +203,7 @@ public class HttpClientHelperTestBase {
 				hdrs.setHeader(header1, "HHH");
 				hdrs.addHeader(header2, "JJJ");
 			});
-			log.trace("Got {} [{}] response string with length of {}",
+			LOG.trace("Got {} [{}] response string with length of {}",
 				result.getStatusLine().getCode(), result.getStatusLine().getMessage(),
 				result.getBodyAsString().length());
 			Assertions.assertEquals(true, result.getBody().isPresent());
@@ -227,7 +227,7 @@ public class HttpClientHelperTestBase {
 				URIBuilder ub = new URIBuilder("http://localhost:" + port + "/samplePatch");
 				return ub.build();
 			}), "included");
-			log.trace("Got {} [{}] response string with length of {}",
+			LOG.trace("Got {} [{}] response string with length of {}",
 				result.getStatusLine().getCode(), result.getStatusLine().getMessage(),
 				result.getBodyAsString().length());
 			Assertions.assertEquals(true, result.getBody().isPresent());
@@ -254,7 +254,7 @@ public class HttpClientHelperTestBase {
 				hdrs.setHeader(header1, "HHH");
 				hdrs.addHeader(header2, "JJJ");
 			});
-			log.trace("Got {} [{}] response string with length of {}",
+			LOG.trace("Got {} [{}] response string with length of {}",
 				result.getStatusLine().getCode(), result.getStatusLine().getMessage(),
 				result.getBodyAsString().length());
 			Assertions.assertEquals(true, result.getBody().isPresent());

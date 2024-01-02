@@ -29,6 +29,8 @@ import java.util.function.Consumer;
 
 public final class McckIOUtil {
 
+	private static final int DEFAULT_BUFFER_SIZE = 1024;
+
 	private McckIOUtil() {
 		// noop
 	}
@@ -74,7 +76,7 @@ public final class McckIOUtil {
 	}
 
 	public static String readAllAsString(InputStream is, Charset charset) throws IOException {
-		ByteArrayOutputStream bos = new ByteArrayOutputStream(1024);
+		ByteArrayOutputStream bos = new ByteArrayOutputStream(DEFAULT_BUFFER_SIZE);
 		is.transferTo(bos);
 		return bos.toString(charset);
 	}

@@ -35,19 +35,19 @@ public interface HttpClientHelper {
 	}
 
 	HttpClientHelperResult<String> doPost(URI requestUri, String body, HttpHeadersModifierHelper httpHdrModHelper);
-	
+
 	default HttpClientHelperResult<String> doPut(URI requestUri, String body) {
 		return doPut(requestUri, body, null);
 	}
 
 	HttpClientHelperResult<String> doPut(URI requestUri, String body, HttpHeadersModifierHelper httpHdrModHelper);
-	
+
 	default HttpClientHelperResult<String> doPatch(URI requestUri, String body) {
 		return doPatch(requestUri, body, null);
 	}
 
 	HttpClientHelperResult<String> doPatch(URI requestUri, String body, HttpHeadersModifierHelper httpHdrModHelper);
-	
+
 	default HttpClientHelperResult<String> doDelete(URI requestUri) {
 		return doDelete(requestUri, null);
 	}

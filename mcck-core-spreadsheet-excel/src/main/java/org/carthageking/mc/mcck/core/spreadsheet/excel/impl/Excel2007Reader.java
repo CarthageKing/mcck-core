@@ -135,7 +135,7 @@ public class Excel2007Reader implements SpreadsheetReader {
 		private String cellRowRef;
 		private boolean inFormula;
 
-		public InternalXssfWorksheetHandler(SharedStrings ssTbl, StylesTable stylesTbl, DataFormatter dataFormatter, ContentHandler handler) {
+		InternalXssfWorksheetHandler(SharedStrings ssTbl, StylesTable stylesTbl, DataFormatter dataFormatter, ContentHandler handler) {
 			this.ssTbl = ssTbl;
 			this.stylesTbl = stylesTbl;
 			this.dataFormatter = dataFormatter;
@@ -244,10 +244,6 @@ public class Excel2007Reader implements SpreadsheetReader {
 				cellRowRef = null;
 				cellTypeStr = null;
 				cellType = null;
-			} else if ("f".equals(qName)) {
-
-			} else if ("v".equals(qName)) {
-
 			}
 		}
 	}
