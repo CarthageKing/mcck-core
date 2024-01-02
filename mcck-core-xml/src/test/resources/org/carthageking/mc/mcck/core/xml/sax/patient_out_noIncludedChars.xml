@@ -1,1 +1,20 @@
+<!--
+  #%L
+  mcck-core-xml
+  %%
+  Copyright (C) 2023 - 2024 Michael I. Calderero
+  %%
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  #L%
+  -->
 <Patient xmlns="http://hl7.org/fhir"><id value="pat3"></id><text><status value="generated"></status><div xmlns="http://www.w3.org/1999/xhtml"><p></p></div></text><identifier><use value="usual"></use><type><coding><system value="http://terminology.hl7.org/CodeSystem/v2-0203" anotherAttr="hi"></system><code value="MR"></code></coding></type><system value="urn:oid:0.1.2.3.4.5.6.7"></system><value value="123457"></value></identifier><active value="true"></active><name><use value="official"></use><family value="Notsowell"></family><given value="Simon"></given></name><gender value="male"></gender><birthDate value="1982-01-23"></birthDate><deceasedDateTime value="2015-02-14T13:42:00+10:00"></deceasedDateTime><managingOrganization><reference value="Organization/1"></reference><display value="ACME Healthcare, Inc"></display></managingOrganization></Patient>
