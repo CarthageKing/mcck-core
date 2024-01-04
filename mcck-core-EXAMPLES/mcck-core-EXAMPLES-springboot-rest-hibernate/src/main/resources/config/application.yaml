@@ -1,0 +1,19 @@
+logging:
+  config: classpath:logback-mccklog.${MCCK_LOG_PROFILE:dev}.xml
+  level:
+    '[org.carthageking]': TRACE
+
+
+spring:
+  jpa:
+    open-in-view: false
+
+
+management:
+  endpoint:
+    health:
+      probes:
+        # This enables the liveness and readiness probes which are the APIs used by
+        # container orchestration software such as Kubernetes to check the health
+        # and status of the application
+        enabled: true

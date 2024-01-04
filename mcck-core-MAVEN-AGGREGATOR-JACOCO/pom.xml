@@ -63,6 +63,11 @@
 
 		<dependency>
 			<groupId>org.carthageking.mc</groupId>
+			<artifactId>mcck-core-json</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.carthageking.mc</groupId>
 			<artifactId>mcck-core-spreadsheet</artifactId>
 		</dependency>
 
