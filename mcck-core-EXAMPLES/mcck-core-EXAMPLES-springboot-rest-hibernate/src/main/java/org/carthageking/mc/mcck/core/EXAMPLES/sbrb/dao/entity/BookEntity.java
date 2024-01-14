@@ -24,8 +24,13 @@ import java.sql.Date;
 
 import java.sql.Timestamp;
 
+import org.hibernate.envers.AuditOverride;
+import org.hibernate.envers.Audited;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -38,7 +43,19 @@ import jakarta.persistence.Table;
 	@Index(columnList = "b_isbn", name = "UIDX_ISBN", unique = true),
 	@Index(columnList = "b_numpages", name = "IDX_NUMPAGES")
 })
-public class BookEntity {
+// annotation below tells Spring/Envers to generate the corresponding audit
+// table for this entity
+@Audited
+// since the entity below gets some common properties from a mapped superclass
+// and we want those properties to also appear in the generated audit table
+// as columns, we include the below annotation
+@AuditOverride(forClass = AuditableEntity.class)
+// since our entity has some fields with the CreatedBy, CreatedDate,
+// LastModifiedBy and LastModifiedDate annotations, the annotation below
+// with the specific value is needed to autopopulate those. For this, we will
+// also need an AuditorAware implementation to populate the *By fields
+@EntityListeners(AuditingEntityListener.class)
+public class BookEntity extends AuditableEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)

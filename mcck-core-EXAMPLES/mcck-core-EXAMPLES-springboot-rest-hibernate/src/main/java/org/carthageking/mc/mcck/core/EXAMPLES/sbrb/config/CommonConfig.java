@@ -1,5 +1,8 @@
 package org.carthageking.mc.mcck.core.EXAMPLES.sbrb.config;
 
+import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.model.AppCustomAuditorAware;
+import org.springframework.context.annotation.Bean;
+
 /*-
  * #%L
  * mcck-core-EXAMPLES-springboot-rest-hibernate
@@ -27,5 +30,10 @@ public class CommonConfig {
 
 	public CommonConfig() {
 		// noop
+	}
+
+	@Bean
+	AppCustomAuditorAware auditorProvider() {
+		return new AppCustomAuditorAware();
 	}
 }

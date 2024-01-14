@@ -25,11 +25,15 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
  */
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.envers.repository.config.EnableEnversRepositories;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
 @EnableJpaRepositories(basePackageClasses = { BookEntityDao.class })
 @EntityScan(basePackageClasses = { BookEntity.class })
+@EnableJpaAuditing
+@EnableEnversRepositories
 public class DbConfig {
 
 	public DbConfig() {
