@@ -7,6 +7,11 @@ logging:
 spring:
   jpa:
     open-in-view: false
+    properties:
+      hibernate:
+        # Tells Hibernate to create all tables and structures, as well as
+        # execute all queries, using this schema
+        '[default_schema]': my_schema
 
 
 # Selectively enable needed endoints

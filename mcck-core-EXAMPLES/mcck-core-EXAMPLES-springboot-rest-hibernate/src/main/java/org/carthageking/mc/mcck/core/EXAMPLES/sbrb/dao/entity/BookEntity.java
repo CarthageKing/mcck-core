@@ -1,5 +1,7 @@
 package org.carthageking.mc.mcck.core.EXAMPLES.sbrb.dao.entity;
 
+import java.sql.Date;
+
 /*-
  * #%L
  * mcck-core-EXAMPLES-springboot-rest-hibernate
@@ -28,6 +30,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Index;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
 @Entity
@@ -56,6 +59,25 @@ public class BookEntity {
 
 	@Column(name = "b_description")
 	private String description;
+
+	// without @Lob but specifying max length for string should tell
+	// Hibernate to create a text column
+	@Column(name = "b_excerpt", length = Integer.MAX_VALUE)
+	private String excerpt;
+
+	// use of @Lob below + specifying max length should tell Hibernate to
+	// create a blob/clob/oid column
+	@Column(name = "b_img", length = Integer.MAX_VALUE)
+	@Lob
+	private String base64Image;
+
+	@Column(name = "b_hash")
+	private Long hash;
+
+	// use java.sql.Date class to tell Hibernate to generate a 'date' column.
+	// do not use 'java.util.Date'
+	@Column(name = "b_date_published")
+	private Date datePublished;
 
 	public BookEntity() {
 		// noop
@@ -107,5 +129,37 @@ public class BookEntity {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getExcerpt() {
+		return excerpt;
+	}
+
+	public void setExcerpt(String excerpt) {
+		this.excerpt = excerpt;
+	}
+
+	public String getBase64Image() {
+		return base64Image;
+	}
+
+	public void setBase64Image(String base64Image) {
+		this.base64Image = base64Image;
+	}
+
+	public Long getHash() {
+		return hash;
+	}
+
+	public void setHash(Long hash) {
+		this.hash = hash;
+	}
+
+	public Date getDatePublished() {
+		return datePublished;
+	}
+
+	public void setDatePublished(Date datePublished) {
+		this.datePublished = datePublished;
 	}
 }
