@@ -23,6 +23,8 @@ package org.carthageking.mc.mcck.core.EXAMPLES.sbrb;
 import java.net.http.HttpClient;
 
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.controller.BooksController;
+import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.dao.BookEntitySearchDao;
+import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.exception.AppCustomExceptionHandler;
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.service.BookService;
 import org.carthageking.mc.mcck.core.httpclient.HttpClientHelper;
 import org.carthageking.mc.mcck.core.httpclient.java11.httpclient.Java11HttpClientHttpClientHelper;
@@ -33,7 +35,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan(basePackageClasses = { BooksController.class, BookService.class })
+@ComponentScan(basePackageClasses = { BooksController.class, BookService.class, BookEntitySearchDao.class, AppCustomExceptionHandler.class })
 public class TestSpringConfig {
 
 	public TestSpringConfig() {

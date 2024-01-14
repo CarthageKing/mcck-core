@@ -23,6 +23,7 @@ package org.carthageking.mc.mcck.core.EXAMPLES.sbrb.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+@JsonInclude(Include.NON_EMPTY)
 public class GenericResponse<T extends java.io.Serializable> implements java.io.Serializable {
 
 	private static final long serialVersionUID = 2198624286618367019L;
