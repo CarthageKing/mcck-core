@@ -9,11 +9,59 @@ spring:
     open-in-view: false
 
 
+# Selectively enable needed endoints
+# https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.endpoints
+# https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.metrics
 management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: health, info, metrics, prometheus
   endpoint:
+    info:
+      enabled: true
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
     health:
+      # This setting shows all the components available that can be checked
+      # in the liveness or readiness probes. The components will show up
+      # under the /actuator/health endpoint
+      show-components: always
+      enabled: true
       probes:
         # This enables the liveness and readiness probes which are the APIs used by
         # container orchestration software such as Kubernetes to check the health
         # and status of the application
         enabled: true
+      # https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.endpoints.kubernetes-probes.external-state
+      group:
+        liveness:
+          # Only include here components that absolutely need to be UP. If any
+          # component is down, the overall liveness state of the app is down
+          # and indicates that the service is unusable and should be restarted.
+          #
+          # As an example, CRUD services absolutely need a database. That
+          # being down means the service cannot be used. Hence, to indicate to
+          # e.g. Kubernetes that the app needs to be restarted, add the
+          # 'db' component here.
+          include: livenessState, db
+        readiness:
+          # Only include here components needed by the service to properly
+          # service requests. If any component indicated is down, the overall
+          # readiness state of the app is down and indicates that the service
+          # is not available to handle requests at this moment in time.
+          #
+          # As an example, the service might write temporary files to disk
+          # and eventually free them up. Any point in time and depending on
+          # the number of requests served, the disk space could fill up. If
+          # it fills up and the service wants to indicate to e.g. Kubernetes
+          # to temporary redirect requests to somewhere else while it finishes
+          # serving its current requests, then add the 'diskSpace' component.
+          #
+          # If the same service uses Redis as a cache for data requests but
+          # can still operate if Redis is down, then do not put the 'redis'
+          # component here.
+          include: readinessState, db, diskSpace

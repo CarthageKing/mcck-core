@@ -47,6 +47,15 @@
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 
+		<!--
+			When we enable the /actuator/prometheus endpoint, then we need to
+			include this dependency
+		-->
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -81,6 +90,22 @@
 						<configuration>
 							<suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
 						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<!--
+									Add this so we can get information from the /actuator/info
+									endpoint
+								-->
+							<goal>build-info</goal>
+						</goals>
 					</execution>
 				</executions>
 			</plugin>

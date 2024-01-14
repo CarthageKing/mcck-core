@@ -23,6 +23,8 @@ package org.carthageking.mc.mcck.core.json;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.NullNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public final class McckJsonUtil {
@@ -68,5 +70,29 @@ public final class McckJsonUtil {
 		} catch (JsonProcessingException e) {
 			throw new McckJsonException(e);
 		}
+	}
+
+	public static JsonNode extractField(JsonNode root, String... paths) {
+		JsonNode curr = root;
+		for (int i = 0; i < paths.length; i++) {
+			String pathName = paths[i];
+			if (isNull(curr)) {
+				break;
+			} else if (curr instanceof ObjectNode) {
+				ObjectNode on = (ObjectNode) curr;
+				if (on.has(pathName)) {
+					curr = on.get(pathName);
+				} else {
+					curr = null;
+				}
+			} else {
+				curr = null;
+			}
+		}
+		return curr;
+	}
+
+	public static boolean isNull(JsonNode n) {
+		return (null == n || n.isNull() || n instanceof NullNode);
 	}
 }
