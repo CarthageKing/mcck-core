@@ -50,7 +50,8 @@ import jakarta.servlet.http.HttpServletRequest;
 @Order(1)
 public class OAuthFilter implements Filter {
 
-	private static final String BEARER_TOKEN = "Bearer ";
+	public static final String CLAIM_USERNAME = "uid";
+	public static final String BEARER_TOKEN = "Bearer ";
 
 	public OAuthFilter() {
 		// noop
@@ -66,7 +67,7 @@ public class OAuthFilter implements Filter {
 			String jsonStr = new String(Base64.getDecoder().decode(b64Str), StandardCharsets.UTF_8);
 			JsonNode jn = McckJsonUtil.toJsonNode(jsonStr);
 			// TODO: basic checks of the JWT
-			JsonNode usernameN = McckJsonUtil.extractField(jn, "uid");
+			JsonNode usernameN = McckJsonUtil.extractField(jn, CLAIM_USERNAME);
 			if (!McckJsonUtil.isNull(usernameN)) {
 				username = usernameN.asText();
 			}

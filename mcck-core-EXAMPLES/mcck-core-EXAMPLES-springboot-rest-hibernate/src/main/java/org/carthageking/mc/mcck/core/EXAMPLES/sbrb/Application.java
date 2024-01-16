@@ -24,6 +24,7 @@ import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.config.DbConfig;
  */
 
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.controller.BooksController;
+import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.controller.OAuthFilter;
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.dao.BookEntitySearchDao;
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.exception.AppCustomExceptionHandler;
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.service.BookService;
@@ -33,7 +34,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
 @EnableAutoConfiguration
-@ComponentScan(basePackageClasses = { BooksController.class, BookService.class, BookEntitySearchDao.class, AppCustomExceptionHandler.class })
+@ComponentScan(basePackageClasses = { BooksController.class, BookService.class, BookEntitySearchDao.class, AppCustomExceptionHandler.class, OAuthFilter.class })
 @Import({ CommonConfig.class, DbConfig.class })
 public class Application {
 

@@ -70,8 +70,7 @@ public class BookService {
 		BookEntity exist = theReturn.get();
 		copyFromBookToBookEntity(book, exist);
 		exist.setId(id);
-		bookDao.saveAndFlush(exist);
-		return convertToBook(exist);
+		return convertToBook(bookDao.saveAndFlush(exist));
 	}
 
 	@Transactional
