@@ -76,8 +76,8 @@ class BooksControllerTest {
 
 	private String baseUrl;
 
-	// autowiring the existing EntityManager due to the system complaining that the 'session was closed'. this is a similar
-	// problem as described in https://stackoverflow.com/a/77023617 and the solution there was used to fix the problem
+	// autowiring the existing EntityManager due to the system complaining that the 'session was closed' did not work.
+	// this is a similar problem as described in https://stackoverflow.com/a/77023617 and the solution there was used to fix the problem
 	@Resource
 	private EntityManagerFactory entityMgrFactory;
 
