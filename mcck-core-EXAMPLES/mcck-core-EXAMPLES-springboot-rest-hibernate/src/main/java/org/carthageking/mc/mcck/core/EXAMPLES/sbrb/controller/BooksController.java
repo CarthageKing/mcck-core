@@ -115,4 +115,19 @@ public class BooksController {
 		rsp.setHeader(hdr);
 		return rsp;
 	}
+
+	@PostMapping(path = "/_search", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public SearchBookResponse searchBooksByPost(
+		@RequestParam String nameStartsWith,
+		@RequestParam String isbnContains,
+		@RequestParam int atLeastNumPages,
+		@RequestParam(required = false, defaultValue = "0") int pageNum,
+		@RequestParam(required = false, defaultValue = "10") int numRecordsPerPage) {
+		SearchBookResponse rsp = bookSvc.searchBooks(nameStartsWith, isbnContains, atLeastNumPages, pageNum, numRecordsPerPage);
+		GenericResponse.GenericResponseHeader hdr = new GenericResponse.GenericResponseHeader();
+		hdr.setStatusCode(String.valueOf(HttpStatus.OK.value()));
+		hdr.setStatusMessage(MSG_OPERATION_SUCCESSFUL);
+		rsp.setHeader(hdr);
+		return rsp;
+	}
 }

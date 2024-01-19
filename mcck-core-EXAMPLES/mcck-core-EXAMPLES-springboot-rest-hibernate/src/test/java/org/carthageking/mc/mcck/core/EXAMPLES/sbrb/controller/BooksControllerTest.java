@@ -25,12 +25,14 @@ import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
 import org.apache.http.HttpHeaders;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.message.BasicNameValuePair;
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.TestDbConfig;
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.TestSpringConfig;
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.config.CommonConfig;
@@ -136,6 +138,12 @@ class BooksControllerTest {
 		Assertions.assertEquals(20, sbr.getData().getNumRecordsPerPage());
 		Assertions.assertEquals(0, sbr.getData().getEntries().size());
 
+		sbr = doSearchBooksByPost("Mummy", "CAT", 200, 0, 20);
+		Assertions.assertEquals(0, sbr.getData().getNumPages());
+		Assertions.assertEquals(1, sbr.getData().getPageNum());
+		Assertions.assertEquals(20, sbr.getData().getNumRecordsPerPage());
+		Assertions.assertEquals(0, sbr.getData().getEntries().size());
+
 		// reads don't cause a new revision
 		revisions = auditReader.createQuery().forRevisionsOfEntity(BookEntity.class, true, true).addOrder(new PropertyAuditOrder(null, new RevisionNumberPropertyName(), true)).getResultList();
 		Assertions.assertEquals(1, revisions.size());
@@ -201,6 +209,15 @@ class BooksControllerTest {
 		Assertions.assertEquals(false, getBookWithName("Mummy 4", sbr.getData().getEntries()).isPresent());
 
 		sbr = doSearchBooks("Mummy", "CAT", 200, 5, 2);
+		Assertions.assertEquals(2, sbr.getData().getNumPages());
+		Assertions.assertEquals(2, sbr.getData().getPageNum());
+		Assertions.assertEquals(2, sbr.getData().getNumRecordsPerPage());
+		Assertions.assertEquals(1, sbr.getData().getEntries().size());
+		Assertions.assertEquals(false, getBookWithName("Mummy 2", sbr.getData().getEntries()).isPresent());
+		Assertions.assertEquals(false, getBookWithName("Mummy 3", sbr.getData().getEntries()).isPresent());
+		Assertions.assertEquals(true, getBookWithName("Mummy 4", sbr.getData().getEntries()).isPresent());
+
+		sbr = doSearchBooksByPost("Mummy", "CAT", 200, 5, 2);
 		Assertions.assertEquals(2, sbr.getData().getNumPages());
 		Assertions.assertEquals(2, sbr.getData().getPageNum());
 		Assertions.assertEquals(2, sbr.getData().getNumRecordsPerPage());
@@ -370,6 +387,28 @@ class BooksControllerTest {
 			builder.addParameter("numRecordsPerPage", String.valueOf(numRecordsPerPage));
 			return builder.build();
 		}));
+		LOG.trace("the response: {}", result.getBodyAsString());
+		Assertions.assertEquals(HttpStatus.OK, HttpStatus.valueOf(result.getStatusLine().getCode()));
+		SearchBookResponse rspObj = McckJsonUtil.toObject(result.getBodyAsString(), SearchBookResponse.class);
+		Assertions.assertEquals(String.valueOf(HttpStatus.OK.value()), rspObj.getHeader().getStatusCode());
+		Assertions.assertEquals(false, rspObj.getHeader().getStatusMessage().isEmpty());
+		return rspObj;
+	}
+
+	private SearchBookResponse doSearchBooksByPost(String nameStartsWith, String isbnContains, int atLeastNumPages, int pageNum, int numRecordsPerPage) {
+		String content = HttpClientHelper.createUrlEncoded(Arrays.asList(
+			new BasicNameValuePair("nameStartsWith", nameStartsWith),
+			new BasicNameValuePair("isbnContains", isbnContains),
+			new BasicNameValuePair("atLeastNumPages", String.valueOf(atLeastNumPages)),
+			new BasicNameValuePair("pageNum", String.valueOf(pageNum)),
+			new BasicNameValuePair("numRecordsPerPage", String.valueOf(numRecordsPerPage))));
+		HttpClientHelperResult<String> result = httpClientHelper.doPost(HttpClientHelper.createURI(() -> {
+			URIBuilder builder = new URIBuilder(baseUrl + "/books/_search");
+			return builder.build();
+		}), content, hdr -> {
+			hdr.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE);
+			hdr.setHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
+		});
 		LOG.trace("the response: {}", result.getBodyAsString());
 		Assertions.assertEquals(HttpStatus.OK, HttpStatus.valueOf(result.getStatusLine().getCode()));
 		SearchBookResponse rspObj = McckJsonUtil.toObject(result.getBodyAsString(), SearchBookResponse.class);

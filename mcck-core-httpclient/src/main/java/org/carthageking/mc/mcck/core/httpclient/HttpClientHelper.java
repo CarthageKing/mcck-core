@@ -21,6 +21,11 @@ package org.carthageking.mc.mcck.core.httpclient;
  */
 
 import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
 
 public interface HttpClientHelper {
 
@@ -60,6 +65,19 @@ public interface HttpClientHelper {
 		} catch (Exception e) {
 			throw new HttpClientHelperException(e);
 		}
+	}
+
+	static String createUrlEncoded(List<? extends NameValuePair> pairs) {
+		StringBuilder sb = new StringBuilder();
+		boolean first = true;
+		for (NameValuePair nvp : pairs) {
+			if (!first) {
+				sb.append("&");
+			}
+			first = false;
+			sb.append(nvp.getName()).append("=").append(URLEncoder.encode(nvp.getValue(), StandardCharsets.UTF_8));
+		}
+		return sb.toString();
 	}
 
 	@FunctionalInterface
