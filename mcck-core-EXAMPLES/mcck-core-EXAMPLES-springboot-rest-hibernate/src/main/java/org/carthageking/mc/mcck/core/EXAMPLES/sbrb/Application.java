@@ -2,6 +2,7 @@ package org.carthageking.mc.mcck.core.EXAMPLES.sbrb;
 
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.config.CommonConfig;
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.config.DbConfig;
+import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.config.McckProxyCachingConfiguration;
 
 /*-
  * #%L
@@ -36,8 +37,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableAutoConfiguration
 @ComponentScan(basePackageClasses = { BooksController.class, BookService.class, BookEntitySearchDao.class, AppCustomExceptionHandler.class, OAuthFilter.class })
-@Import({ CommonConfig.class, DbConfig.class })
+@Import({ CommonConfig.class, DbConfig.class, McckProxyCachingConfiguration.class })
 @EnableScheduling
+//since we're overriding Spring's CacheInterceptor will our own implementation, we
+//should not use EnableCaching annotation. Rather, we just use import our custom
+//ProxyCachingConfiguration which uses our custom CacheInterceptor class
+//@EnableCaching
 public class Application {
 
 	public Application() {

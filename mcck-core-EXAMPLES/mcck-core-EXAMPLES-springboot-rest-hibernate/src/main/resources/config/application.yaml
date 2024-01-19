@@ -25,6 +25,21 @@ server:
 spring:
   profiles:
     include: ${APP_CUSTOM_PROFILE:unittest}
+  # https://docs.spring.io/spring-boot/docs/current/reference/html/io.html#io.caching
+  cache:
+    type: ${SB_SPRING_CACHE_TYPE:none}
+    redis: 
+      time-to-live: ${SB_SPRING_CACHE_TTL:60000}
+      use-key-prefix: ${SB_SPRING_CACHE_REDIS_USE_KEY_PREFIX:true}
+      key-prefix: ${SB_SPRING_CACHE_REDIS_KEY_PREFIX:app_custom}
+  data:
+    redis:
+      host: ${SB_SPRING_DATA_REDIS_HOST:localhost}
+      port: ${SB_SPRING_DATA_REDIS_PORT:6379}
+      connect-timeout: ${SB_SPRING_DATA_REDIS_CONN_TIMEOUT:750}
+      database: ${SB_SPRING_DATA_REDIS_DB:0}
+      username: ${SB_SPRING_DATA_REDIS_USERNAME:}
+      password: ${SB_SPRING_DATA_REDIS_PASSWORD:}
   task:
     scheduling:
       pool:
@@ -120,6 +135,14 @@ management:
           # can still operate if Redis is down, then do not put the 'redis'
           # component here.
           include: readinessState, db, diskSpace
+
+
+mcck:
+  spring:
+    caching:
+      # Used in the McckCacheInterceptor class
+      max_fail_count: 3
+      max_downtime_millis: 5000
 
 
 app_custom:

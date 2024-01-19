@@ -28,6 +28,9 @@ import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.dao.entity.BookEntity;
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.exception.AppCustomResultNotFoundException;
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.model.Book;
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.model.SearchBookResponse;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import jakarta.annotation.Resource;
@@ -46,6 +49,10 @@ public class BookService {
 		// noop
 	}
 
+	@Caching(evict = {
+		@CacheEvict(value = { "app_custom.retrieveBookById" }, allEntries = true),
+		@CacheEvict(value = { "app_custom.searchBooks" }, allEntries = true),
+	})
 	@Transactional
 	public Book createBook(Book book) {
 		BookEntity be = convertToBookEntity(book);
@@ -53,6 +60,7 @@ public class BookService {
 		return convertToBook(ber);
 	}
 
+	@Cacheable("app_custom.retrieveBookById")
 	public Book retrieveBookById(String id) {
 		Optional<BookEntity> theReturn = bookDao.findById(id);
 		if (theReturn.isEmpty()) {
@@ -61,6 +69,10 @@ public class BookService {
 		return convertToBook(theReturn.get());
 	}
 
+	@Caching(evict = {
+		@CacheEvict(value = { "app_custom.retrieveBookById" }, allEntries = true),
+		@CacheEvict(value = { "app_custom.searchBooks" }, allEntries = true),
+	})
 	@Transactional
 	public Book updateBook(String id, Book book) {
 		Optional<BookEntity> theReturn = bookDao.findById(id);
@@ -73,6 +85,10 @@ public class BookService {
 		return convertToBook(bookDao.saveAndFlush(exist));
 	}
 
+	@Caching(evict = {
+		@CacheEvict(value = { "app_custom.retrieveBookById" }, allEntries = true),
+		@CacheEvict(value = { "app_custom.searchBooks" }, allEntries = true),
+	})
 	@Transactional
 	public Book deleteBook(String id) {
 		Optional<BookEntity> theReturn = bookDao.findById(id);
@@ -85,7 +101,7 @@ public class BookService {
 		return toReturn;
 	}
 
-	// https://docs.spring.io/spring-data/jpa/reference/repositories/query-by-example.html
+	@Cacheable("app_custom.searchBooks")
 	@Transactional
 	public SearchBookResponse searchBooks(String nameStartsWith,
 		String isbnContains, int atLeastNumPages, int pageNum,

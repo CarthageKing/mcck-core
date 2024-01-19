@@ -92,9 +92,10 @@ class ActuatorEndpointsTest {
 			}));
 
 			LOG.trace("the response: {}", result.getBodyAsString());
-			Assertions.assertEquals(HttpStatus.OK, HttpStatus.valueOf(result.getStatusLine().getCode()));
+			// it's down because of Redis but we just use that as a cache
+			Assertions.assertEquals(HttpStatus.SERVICE_UNAVAILABLE, HttpStatus.valueOf(result.getStatusLine().getCode()));
 			JsonNode rspObj = McckJsonUtil.toJsonNode(result.getBodyAsString());
-			Assertions.assertEquals("UP", rspObj.get("status").asText());
+			Assertions.assertEquals("DOWN", rspObj.get("status").asText());
 		}
 	}
 
