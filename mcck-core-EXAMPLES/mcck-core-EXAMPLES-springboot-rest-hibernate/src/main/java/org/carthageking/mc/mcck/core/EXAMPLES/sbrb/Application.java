@@ -32,10 +32,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableAutoConfiguration
 @ComponentScan(basePackageClasses = { BooksController.class, BookService.class, BookEntitySearchDao.class, AppCustomExceptionHandler.class, OAuthFilter.class })
 @Import({ CommonConfig.class, DbConfig.class })
+@EnableScheduling
 public class Application {
 
 	public Application() {

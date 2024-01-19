@@ -28,12 +28,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.envers.repository.config.EnableEnversRepositories;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableJpaRepositories(basePackageClasses = { BookEntityDao.class })
 @EntityScan(basePackageClasses = { BookEntity.class })
 @EnableJpaAuditing
 @EnableEnversRepositories
+@EnableTransactionManagement
 public class DbConfig {
 
 	public DbConfig() {

@@ -4,6 +4,7 @@ import javax.sql.DataSource;
 
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.dao.BookEntityDao;
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.dao.entity.BookEntity;
+import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.util.DbHelper;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 
@@ -33,12 +34,14 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableJpaRepositories(basePackageClasses = { BookEntityDao.class })
 @EntityScan(basePackageClasses = { BookEntity.class })
 @EnableJpaAuditing
 @EnableEnversRepositories
+@EnableTransactionManagement
 public class TestDbConfig {
 
 	public TestDbConfig() {
@@ -62,5 +65,10 @@ public class TestDbConfig {
 			// tests
 			.generateUniqueName(true)
 			.build();
+	}
+
+	@Bean
+	DbHelper dbHelper() {
+		return new DbHelper();
 	}
 }

@@ -1,10 +1,51 @@
 logging:
   config: classpath:logback-mccklog.${MCCK_LOG_PROFILE:dev}.xml
   level:
-    '[org.carthageking]': TRACE
+    '[com.zaxxer.hikari.HikariConfig]': ${HIKARI_CONFIG_LOGLEVEL:DEBUG}
+    '[com.zaxxer.hikari]': ${HIKARI_LOGLEVEL:TRACE}
+
+
+server:
+  # Enable graceful shutdown
+  shutdown: graceful
+  tomcat:
+    threads:
+      max: ${SB_SERVER_MAX_THREADS:64}
+      min-spare: ${SB_SERVER_MIN_THREADS:4}
+  jetty:
+    threads:
+      max: ${SB_SERVER_MAX_THREADS:64}
+      min: ${SB_SERVER_MIN_THREADS:4}
+  undertow:
+    threads:
+      io: ${SB_SERVER_IO_THREADS:4}
+      worker: ${SB_SERVER_WORKER_THREADS:32}
 
 
 spring:
+  profiles:
+    include: ${APP_CUSTOM_PROFILE:unittest}
+  task:
+    scheduling:
+      pool:
+        size: ${SB_SPRING_TASK_SCHED_POOL_SIZE:3}
+      shutdown:
+        # for graceful shutdown
+        await-termination:  true
+        await-termination-period: ${SB_SPRING_SHUTDOWN_AWAIT_TERMINATION_PERIOD:15s}
+  datasource:
+    hikari:
+      # https://github.com/brettwooldridge/HikariCP?tab=readme-ov-file#gear-configuration-knobs-baby
+      minimum-idle: ${SB_DATASRC_MIN_POOL_SIZE:2}
+      maximum-pool-size: ${SB_DATASRC_MAX_POOL_SIZE:12}
+      idle-timeout: ${SB_DATASRC_CONN_IDLE_TIMEOUT:10000}
+      keepalive-time: ${SB_DATASRC_CONN_KEEPALIVE_TIME:30000}
+      max-lifetime: ${SB_DATASRC_CONN_MAX_LIFETIME:30000}
+      connection-timeout: ${SB_DATASRC_CONN_TIMEOUT:30000}
+      leak-detection-threshold: ${SB_DATASRC_LEAK_DETECTION_THRESHOLD:4000}
+      # https://github.com/brettwooldridge/HikariCP/wiki/Rapid-Recovery
+      data-source-properties:
+        socketTimeout: ${SB_DATASRC_SOCKET_TIMEOUT:8}
   jpa:
     open-in-view: false
     properties:
@@ -16,6 +57,7 @@ spring:
         hibernate:
           envers:
             # https://docs.jboss.org/envers/docs/#configuration
+            # Also see EnversSettings.java class
             '[audit_table_suffix]': _a
             '[revision_field_name]': rev_id
             '[revision_type_field_name]': rev_type
@@ -78,3 +120,10 @@ management:
           # can still operate if Redis is down, then do not put the 'redis'
           # component here.
           include: readinessState, db, diskSpace
+
+
+app_custom:
+  scheduling:
+    # https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/support/CronExpression.html
+    # The '-' value means it is disabled
+    audit_cleaner_svc_sched: ${APP_CUSTOM_AUDIT_CLEANER_SVC_SCHED:-}

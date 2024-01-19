@@ -49,31 +49,28 @@ public class AppCustomRevisionEntity implements java.io.Serializable {
 
 	private static final long serialVersionUID = -6495046933812945376L;
 
-	@Id
-	@GeneratedValue
-	@Column(name = "rev_id")
-	@RevisionNumber
-	private int id;
-
-	@Column(name = "rev_tstmp")
-	@RevisionTimestamp
+	private long id;
 	private long timestamp;
-
-	@Column(name = "rev_username", length = AppCustomConstants.MAX_USERNAME_LENGTH)
 	private String username;
 
 	public AppCustomRevisionEntity() {
 		// noop
 	}
 
-	public int getId() {
+	@Id
+	@GeneratedValue
+	@Column(name = "rev_id")
+	@RevisionNumber
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
+	@Column(name = "rev_tstmp")
+	@RevisionTimestamp
 	public long getTimestamp() {
 		return timestamp;
 	}
@@ -82,6 +79,7 @@ public class AppCustomRevisionEntity implements java.io.Serializable {
 		this.timestamp = timestamp;
 	}
 
+	@Column(name = "rev_username", length = AppCustomConstants.MAX_USERNAME_LENGTH)
 	public String getUsername() {
 		return username;
 	}
