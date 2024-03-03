@@ -27,6 +27,7 @@
 		<module>mcck-core-checkstyle</module>
 		<module>mcck-core-EXAMPLES</module>
 		<module>mcck-core-json</module>
+		<module>mcck-core-cucumber</module>
 	</modules>
 
 
@@ -71,6 +72,12 @@
 			<dependency>
 				<groupId>org.carthageking.mc</groupId>
 				<artifactId>mcck-core-csv</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.carthageking.mc</groupId>
+				<artifactId>mcck-core-cucumber</artifactId>
 				<version>0.0.1-SNAPSHOT</version>
 			</dependency>
 
@@ -174,6 +181,14 @@
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-csv</artifactId>
 				<version>1.10.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.cucumber</groupId>
+				<artifactId>cucumber-bom</artifactId>
+				<version>7.15.0</version>
+				<type>pom</type>
+				<scope>import</scope>
 			</dependency>
 
 			<dependency>

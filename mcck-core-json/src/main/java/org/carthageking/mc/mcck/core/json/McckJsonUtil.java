@@ -72,6 +72,11 @@ public final class McckJsonUtil {
 		}
 	}
 
+	public static JsonNode extractFieldAtPath(JsonNode root, String path) {
+		String[] paths = path.split("\\.");
+		return extractField(root, paths);
+	}
+
 	public static JsonNode extractField(JsonNode root, String... paths) {
 		JsonNode curr = root;
 		for (int i = 0; i < paths.length; i++) {

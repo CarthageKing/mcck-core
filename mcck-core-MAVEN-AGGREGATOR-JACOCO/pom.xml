@@ -18,6 +18,11 @@
 
 		<dependency>
 			<groupId>org.carthageking.mc</groupId>
+			<artifactId>mcck-core-cucumber</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.carthageking.mc</groupId>
 			<artifactId>mcck-core-httpclient</artifactId>
 		</dependency>
 
