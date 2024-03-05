@@ -147,17 +147,67 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<!--
+					to create a jar/war that can be executed without using 'java -jar' command,
+					the ZIP layout can be used. More information about that here:
+				https://docs.spring.io/spring-boot/docs/3.1.x/maven-plugin/reference/htmlsingle/#packaging
+				-->
 				<executions>
 					<execution>
 						<goals>
 							<!--
-									Add this so we can get information from the /actuator/info
-									endpoint
-								-->
+								Add this so we can get information from the /actuator/info
+								endpoint
+							-->
 							<goal>build-info</goal>
+							<!--
+								Tells the plugin to generate an uber jar
+							-->
+							<goal>repackage</goal>
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>net.masterthought</groupId>
+				<artifactId>maven-cucumber-reporting</artifactId>
+				<executions>
+					<execution>
+						<id>maven-cucumber-reporting-create-report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>
+								${project.build.directory}/cucumber-cucumber-report-html</outputDirectory>
+							<inputDirectory>${project.build.directory}</inputDirectory>
+							<jsonFiles>
+								<param>cucumber/**/cucumber-*.json</param>
+							</jsonFiles>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>com.trivago.rta</groupId>
+				<artifactId>cluecumber-maven</artifactId>
+				<executions>
+					<execution>
+						<id>cluecumber-maven-create-report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>reporting</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<sourceJsonReportDirectory>${project.build.directory}/cucumber</sourceJsonReportDirectory>
+					<generatedHtmlReportDirectory>
+						${project.build.directory}/cucumber-cluecumber-report-html</generatedHtmlReportDirectory>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

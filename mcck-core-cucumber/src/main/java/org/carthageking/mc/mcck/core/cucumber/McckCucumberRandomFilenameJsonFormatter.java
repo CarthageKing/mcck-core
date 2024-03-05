@@ -113,6 +113,7 @@ public class McckCucumberRandomFilenameJsonFormatter implements EventListener, C
 
 	@Override
 	public void close() throws IOException {
+		McckIOUtil.flushFully(outFileOS, e -> LOG.warn("Encountered error while flushing", e));
 		McckIOUtil.closeFully(outFileOS, e -> LOG.warn("Encountered error while closing", e));
 	}
 }

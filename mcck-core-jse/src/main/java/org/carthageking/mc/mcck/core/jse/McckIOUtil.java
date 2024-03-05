@@ -22,6 +22,7 @@ package org.carthageking.mc.mcck.core.jse;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
+import java.io.Flushable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -67,6 +68,22 @@ public final class McckIOUtil {
 		if (null != c) {
 			try {
 				c.close();
+			} catch (Exception e) {
+				if (null != exceptionHandler) {
+					exceptionHandler.accept(e);
+				}
+			}
+		}
+	}
+
+	public static void flushFully(Flushable f) {
+		flushFully(f, null);
+	}
+
+	public static void flushFully(Flushable f, Consumer<Exception> exceptionHandler) {
+		if (null != f) {
+			try {
+				f.flush();
 			} catch (Exception e) {
 				if (null != exceptionHandler) {
 					exceptionHandler.accept(e);

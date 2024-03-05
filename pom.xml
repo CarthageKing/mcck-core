@@ -49,6 +49,8 @@
 		<maven.failsafe.plugin.version>3.2.3</maven.failsafe.plugin.version>
 		<maven.site.plugin.version>3.12.1</maven.site.plugin.version>
 		<maven.project.info.reports.plugin.version>3.5.0</maven.project.info.reports.plugin.version>
+		<maven.cucumber.reporting.plugin.version>5.8.0</maven.cucumber.reporting.plugin.version>
+		<cluecumber.maven.plugin.version>3.5.1</cluecumber.maven.plugin.version>
 	</properties>
 
 
@@ -329,6 +331,18 @@
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-maven-plugin</artifactId>
 					<version>${spring.boot.version}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>net.masterthought</groupId>
+					<artifactId>maven-cucumber-reporting</artifactId>
+					<version>${maven.cucumber.reporting.plugin.version}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>com.trivago.rta</groupId>
+					<artifactId>cluecumber-maven</artifactId>
+					<version>${cluecumber.maven.plugin.version}</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>
