@@ -1,4 +1,4 @@
-package org.carthageking.mc.mcck.core.EXAMPLES.sbrb.cucumber_tests;
+package org.carthageking.mc.mcck.core.EXAMPLES.sbrb.cucumber_tests.ctx002;
 
 /*-
  * #%L
@@ -27,7 +27,6 @@ import org.junit.platform.suite.api.ConfigurationParameter;
 import org.junit.platform.suite.api.IncludeEngines;
 import org.junit.platform.suite.api.SelectClasspathResource;
 import org.junit.platform.suite.api.Suite;
-import org.springframework.boot.test.autoconfigure.actuate.observability.AutoConfigureObservability;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ContextConfiguration;
@@ -40,21 +39,25 @@ import io.cucumber.spring.CucumberContextConfiguration;
 // below illustrates loading of one feature file for execution. To include all
 // feature files inside the given classpath, just specify the classpath and
 // not an individual feature file
-@SelectClasspathResource("cucumber_features/ActuatorEndpointsTest.feature")
+@SelectClasspathResource("cucumber_features/RestApiTest.feature")
 @ConfigurationParameter(key = Constants.PLUGIN_PROPERTY_NAME, value = "org.carthageking.mc.mcck.core.cucumber.McckCucumberRandomFilenameJsonFormatter:target/cucumber/cucumber.json")
+
 // the below annotation is not required to be present, but leaving it out
 // will generate some System.err messages about glue code as Cucumber attempts
 // to load then using different listeners (Junit3, JUnit4, etc.). To avoid the
 // messages, explicitly specify where our glue code (i.e. step definitions) is
-@ConfigurationParameter(key = Constants.GLUE_PROPERTY_NAME, value = "org.carthageking.mc.mcck.core.EXAMPLES.sbrb.cucumber_tests")
+//
+// additionally, we specify two classpaths. the first one is the classpath where this class file resides
+// and the other one is where our step definitions are. doing it this way would allow us to specify
+// different context configurations for different tests
+@ConfigurationParameter(key = Constants.GLUE_PROPERTY_NAME, value = //
+"org.carthageking.mc.mcck.core.EXAMPLES.sbrb.cucumber_tests.ctx002,"
+	+ "org.carthageking.mc.mcck.core.EXAMPLES.sbrb.cucumber_tests.stepdefs")
+
 @CucumberContextConfiguration
 @ContextConfiguration(classes = { TestSpringConfig.class, CommonConfig.class, TestDbConfig.class })
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-// need the annotation below so things like /actuator/prometheus is
-// configured properly in test context. the below annotation is not needed
-// in the actual application
-@AutoConfigureObservability
-public class ActuatorEndpointsCucumberTest {
+public class RestApiCucumberTest {
 	// This class needs to be empty (i.e. will not contain any @Test methods)
 	// otherwise the annotated test methods will be executed normally, which we
 	// do not want

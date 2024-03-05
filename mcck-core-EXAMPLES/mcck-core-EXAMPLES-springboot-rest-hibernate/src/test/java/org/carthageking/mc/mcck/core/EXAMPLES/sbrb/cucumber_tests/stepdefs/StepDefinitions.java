@@ -1,4 +1,4 @@
-package org.carthageking.mc.mcck.core.EXAMPLES.sbrb.cucumber_tests;
+package org.carthageking.mc.mcck.core.EXAMPLES.sbrb.cucumber_tests.stepdefs;
 
 /*-
  * #%L
@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.http.client.utils.URIBuilder;
+import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.cucumber_tests.ResponseDataType;
 import org.carthageking.mc.mcck.core.httpclient.HttpClientHelper;
 import org.carthageking.mc.mcck.core.httpclient.HttpClientHelperResult;
 import org.carthageking.mc.mcck.core.json.McckJsonUtil;
