@@ -1,5 +1,8 @@
 package org.carthageking.mc.mcck.core.EXAMPLES.sbrb.controller;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
 /*-
  * #%L
  * mcck-core-EXAMPLES-springboot-rest-hibernate
@@ -22,12 +25,19 @@ package org.carthageking.mc.mcck.core.EXAMPLES.sbrb.controller;
 
 import org.springframework.test.context.TestPropertySource;
 
+@DisplayName("Books: CRUD API")
 // in this test, we set a cache type that we don't have running. the goal of this
 // test is to ensure the application still works even when the cache is down
 @TestPropertySource(properties = {
 	"spring.cache.type=redis",
 	"spring.data.redis.port=6377",
 })
-class CachingFailureBooksControllerTest extends BooksControllerTest {
+class CachingFailureBooksControllerTest extends BooksControllerTestBase {
 
+	@Test
+	@DisplayName("Caching Enabled But Cache Server Cannot Be Accessed")
+	@Override
+	void test_bookCRUD() {
+		super.test_bookCRUD();
+	}
 }

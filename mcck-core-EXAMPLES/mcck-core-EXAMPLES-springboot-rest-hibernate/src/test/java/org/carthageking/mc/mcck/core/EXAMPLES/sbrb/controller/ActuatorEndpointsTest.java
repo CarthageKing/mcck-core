@@ -26,6 +26,7 @@ import org.apache.http.client.utils.URIBuilder;
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.TestDbConfig;
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.TestSpringConfig;
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.config.CommonConfig;
+import org.carthageking.mc.mcck.core.allure.McckAllureParentSuite;
 import org.carthageking.mc.mcck.core.httpclient.HttpClientHelper;
 import org.carthageking.mc.mcck.core.httpclient.HttpClientHelperResult;
 import org.carthageking.mc.mcck.core.json.McckJsonUtil;
@@ -34,6 +35,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.actuate.observability.AutoConfigureObservability;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -48,6 +50,8 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 
 import jakarta.annotation.Resource;
 
+@McckAllureParentSuite("Unit Tests Suite")
+@DisplayName("Spring Actuator APIs")
 @ContextConfiguration(classes = { TestSpringConfig.class, CommonConfig.class, TestDbConfig.class })
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 // need the annotation below so things like /actuator/prometheus is

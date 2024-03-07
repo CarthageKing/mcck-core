@@ -23,12 +23,15 @@ package org.carthageking.mc.mcck.core.EXAMPLES.sbrb.ddl;
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.TestDbConfig;
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.TestSpringConfig;
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.config.CommonConfig;
+import org.carthageking.mc.mcck.core.allure.McckAllureParentSuite;
+import org.carthageking.mc.mcck.core.allure.McckAllureSubSuite;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -54,6 +57,10 @@ import org.springframework.test.context.TestPropertySource;
 // when there is an explicit DataSource bean definition in TestDbConfig.java.
 // see notes there before removing the below annotation
 @Disabled
+@McckAllureParentSuite("Unit Tests Suite")
+// below annotation will be used to override the allure suite name
+@DisplayName("DDL Generation")
+@McckAllureSubSuite("Postgres")
 class GenerateDDLForPostgresTest {
 
 	@BeforeAll

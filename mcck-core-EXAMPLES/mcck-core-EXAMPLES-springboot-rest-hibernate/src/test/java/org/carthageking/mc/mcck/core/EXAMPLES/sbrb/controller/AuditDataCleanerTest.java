@@ -25,12 +25,14 @@ import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.TestSpringConfig;
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.config.CommonConfig;
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.service.AuditCleanerService;
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.util.DbHelper;
+import org.carthageking.mc.mcck.core.allure.McckAllureParentSuite;
 import org.carthageking.mc.mcck.core.httpclient.HttpClientHelper;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -40,6 +42,8 @@ import org.springframework.test.context.TestPropertySource;
 
 import jakarta.annotation.Resource;
 
+@McckAllureParentSuite("Unit Tests Suite")
+@DisplayName("Data Cleaning Services")
 @ContextConfiguration(classes = { TestSpringConfig.class, CommonConfig.class, TestDbConfig.class })
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = {
@@ -84,6 +88,7 @@ class AuditDataCleanerTest {
 		auditCleanerSvc.pause();
 	}
 
+	@DisplayName("Audit Data")
 	@Test
 	void test_cleaning() throws Exception {
 		Assertions.assertEquals(true, dbHelper.countBookEntityAuditRecords() > 0);

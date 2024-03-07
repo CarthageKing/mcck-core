@@ -1,8 +1,8 @@
-package org.carthageking.mc.mcck.core.EXAMPLES.sbrb.controller;
+package org.carthageking.mc.mcck.core.allure;
 
 /*-
  * #%L
- * mcck-core-EXAMPLES-springboot-rest-hibernate
+ * mcck-core-allure-cucumber7-jvm
  * %%
  * Copyright (C) 2024 Michael I. Calderero
  * %%
@@ -20,16 +20,21 @@ package org.carthageking.mc.mcck.core.EXAMPLES.sbrb.controller;
  * #L%
  */
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-@DisplayName("Books: CRUD API")
-class BooksControllerTest extends BooksControllerTestBase {
+import io.qameta.allure.LabelAnnotation;
+import io.qameta.allure.util.ResultsUtils;
 
-	@Test
-	@DisplayName("No Caching")
-	@Override
-	void test_bookCRUD() {
-		super.test_bookCRUD();
-	}
+@Documented
+@Inherited
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.METHOD, ElementType.TYPE })
+@LabelAnnotation(name = ResultsUtils.SUITE_LABEL_NAME)
+public @interface McckAllureSuite {
+	String value();
 }

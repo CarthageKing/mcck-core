@@ -23,11 +23,13 @@ package org.carthageking.mc.mcck.core.EXAMPLES.sbrb.ddl;
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.TestDbConfig;
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.TestSpringConfig;
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.config.CommonConfig;
+import org.carthageking.mc.mcck.core.allure.McckAllureParentSuite;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -56,6 +58,11 @@ import org.springframework.test.context.TestPropertySource;
 	"spring.jpa.properties.jakarta.persistence.schema-generation.scripts.action=create",
 	"spring.jpa.properties.jakarta.persistence.schema-generation.scripts.create-target=target/create.sql",
 })
+@McckAllureParentSuite("Unit Tests Suite")
+// below annotation will be used to override the allure suite name
+@DisplayName("DDL Generation")
+// for demo purposes, we disable the annotation below, and specify the sub suite name inside the test method itself
+//@McckAllureSubSuite("H2")
 class GenerateDDLForH2Test {
 
 	@BeforeAll
@@ -75,7 +82,13 @@ class GenerateDDLForH2Test {
 	}
 
 	@Test
+	// below annotation value will be used to override the allure name of the method
+	@DisplayName("H2 method")
 	void test_generateDdl() {
+		// this is another way of specifying the sub suite. also refer to the link for additional examples
+		// https://allurereport.org/docs/junit5/#organize-tests
+		//Allure.label(ResultsUtils.SUB_SUITE_LABEL_NAME, "H2");
+
 		// do nothing. add the below to get rid of warning saying that this
 		// test method does not have any assertions
 		Assertions.assertTrue(true);

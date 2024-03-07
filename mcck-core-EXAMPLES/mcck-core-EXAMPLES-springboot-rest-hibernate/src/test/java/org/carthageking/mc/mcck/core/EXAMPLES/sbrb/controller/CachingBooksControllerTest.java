@@ -1,5 +1,8 @@
 package org.carthageking.mc.mcck.core.EXAMPLES.sbrb.controller;
 
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
 /*-
  * #%L
  * mcck-core-EXAMPLES-springboot-rest-hibernate
@@ -22,9 +25,16 @@ package org.carthageking.mc.mcck.core.EXAMPLES.sbrb.controller;
 
 import org.springframework.test.context.TestPropertySource;
 
+@DisplayName("Books: CRUD API")
 @TestPropertySource(properties = {
 	"spring.cache.type=simple"
 })
-class CachingBooksControllerTest extends BooksControllerTest {
+class CachingBooksControllerTest extends BooksControllerTestBase {
 
+	@Test
+	@DisplayName("Caching Enabled and Working")
+	@Override
+	void test_bookCRUD() {
+		super.test_bookCRUD();
+	}
 }
