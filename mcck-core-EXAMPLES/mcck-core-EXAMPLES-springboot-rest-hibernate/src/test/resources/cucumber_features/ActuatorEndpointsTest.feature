@@ -16,6 +16,12 @@
 #""
 ## (Comments)
 #Sample Feature Definition Template
+@allure.label.epic:Cucumber_Tests_Epic
+@allure.label.feature:Feature_1
+#@allure.label.story:Story_1
+@allure.label.parentSuite:Cucumber_Tests_Parent_Suite
+@allure.label.suite:Suite_1
+@allure.label.sub_suite:Sub_Suite_Actuator_Endpoints
 Feature: Actuator Endpoints
   A feature file to test the actuator endpoints in the application
 

@@ -41,7 +41,13 @@ import io.cucumber.spring.CucumberContextConfiguration;
 // feature files inside the given classpath, just specify the classpath and
 // not an individual feature file
 @SelectClasspathResource("cucumber_features/ActuatorEndpointsTest.feature")
-@ConfigurationParameter(key = Constants.PLUGIN_PROPERTY_NAME, value = "org.carthageking.mc.mcck.core.cucumber.McckCucumberRandomFilenameJsonFormatter:target/cucumber/cucumber.json")
+
+@ConfigurationParameter(key = Constants.PLUGIN_PROPERTY_NAME, value = //
+"org.carthageking.mc.mcck.core.cucumber.McckCucumberRandomFilenameJsonFormatter:target/cucumber/cucumber.json,"
+	// https://allurereport.org/docs/cucumberjvm/
+	// https://allurereport.org/docs/junit5/
+	// we enable the plugin for allure for the given version of cucumber 
+	+ "org.carthageking.mc.mcck.core.allure.cucumber7.jvm.McckAllureCucumber7Jvm")
 
 // the below annotation is not required to be present, but leaving it out
 // will generate some System.err messages about glue code as Cucumber attempts
@@ -53,7 +59,7 @@ import io.cucumber.spring.CucumberContextConfiguration;
 // different context configurations for different tests
 @ConfigurationParameter(key = Constants.GLUE_PROPERTY_NAME, value = //
 "org.carthageking.mc.mcck.core.EXAMPLES.sbrb.cucumber_tests.ctx001,"
-+ "org.carthageking.mc.mcck.core.EXAMPLES.sbrb.cucumber_tests.stepdefs")
+	+ "org.carthageking.mc.mcck.core.EXAMPLES.sbrb.cucumber_tests.stepdefs")
 
 @CucumberContextConfiguration
 @ContextConfiguration(classes = { TestSpringConfig.class, CommonConfig.class, TestDbConfig.class })

@@ -123,6 +123,26 @@
 			<artifactId>cucumber-spring</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- add the dependency that matches the version of cucumber used -->
+		<!--
+		<dependency>
+			<groupId>io.qameta.allure</groupId>
+			<artifactId>allure-cucumber7-jvm</artifactId>
+			<scope>test</scope>
+		</dependency>
+		-->
+		<dependency>
+			<groupId>org.carthageking.mc</groupId>
+			<artifactId>mcck-core-allure-cucumber7-jvm</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.qameta.allure</groupId>
+			<artifactId>allure-junit5</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 
@@ -208,6 +228,44 @@
 					<generatedHtmlReportDirectory>
 						${project.build.directory}/cucumber-cluecumber-report-html</generatedHtmlReportDirectory>
 				</configuration>
+			</plugin>
+
+			<!--
+				https://allurereport.org/docs/junit5/#configure-aspectj
+				configure the surefire unit test plugin so it can talk to allure
+			-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<argLine>
+						-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectjweaver.version}/aspectjweaver-${aspectjweaver.version}.jar"
+					</argLine>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.aspectj</groupId>
+						<artifactId>aspectjweaver</artifactId>
+						<version>${aspectjweaver.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+			<plugin>
+				<groupId>io.qameta.allure</groupId>
+				<artifactId>allure-maven</artifactId>
+				<executions>
+					<execution>
+						<id>allure-maven-create-report</id>
+						<phase>test</phase>
+						<goals>
+							<!--
+								generates allure report in target/site/allure-maven-plugin path
+							-->
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

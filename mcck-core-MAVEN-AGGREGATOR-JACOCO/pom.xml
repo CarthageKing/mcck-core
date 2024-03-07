@@ -13,6 +13,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.carthageking.mc</groupId>
+			<artifactId>mcck-core-allure-cucumber7-jvm</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.carthageking.mc</groupId>
 			<artifactId>mcck-core-csv</artifactId>
 		</dependency>
 
