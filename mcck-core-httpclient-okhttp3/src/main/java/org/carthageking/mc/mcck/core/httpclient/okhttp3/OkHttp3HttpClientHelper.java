@@ -1,8 +1,27 @@
 package org.carthageking.mc.mcck.core.httpclient.okhttp3;
 
+/*-
+ * #%L
+ * mcck-core-httpclient-okhttp3
+ * %%
+ * Copyright (C) 2023 - 2024 Michael I. Calderero
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+
 import java.io.IOException;
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
 
 import org.apache.http.HttpHeaders;
 import org.carthageking.mc.mcck.core.httpclient.HttpClientHelper;
@@ -12,6 +31,7 @@ import org.carthageking.mc.mcck.core.httpclient.HttpMimeTypes;
 import org.carthageking.mc.mcck.core.httpclient.StatusLine;
 
 import okhttp3.HttpUrl;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -19,6 +39,8 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 public class OkHttp3HttpClientHelper implements HttpClientHelper {
+
+	private static final MediaType APPLICATION_JSON_UTF8 = MediaType.get(HttpMimeTypes.APPLICATION_JSON_UTF8.getMimeTypeAsString());
 
 	private final OkHttpClient httpClient;
 
@@ -35,6 +57,18 @@ public class OkHttp3HttpClientHelper implements HttpClientHelper {
 		Request.Builder httpReqBuilder = new Request.Builder()
 			.get()
 			.url(HttpUrl.get(requestUri));
+		return doRequestNoBody(httpHdrModHelper, httpReqBuilder);
+	}
+
+	@Override
+	public HttpClientHelperResult<String> doDelete(URI requestUri, HttpHeadersModifierHelper httpHdrModHelper) {
+		Request.Builder httpReqBuilder = new Request.Builder()
+			.delete()
+			.url(HttpUrl.get(requestUri));
+		return doRequestNoBody(httpHdrModHelper, httpReqBuilder);
+	}
+
+	private HttpClientHelperResult<String> doRequestNoBody(HttpHeadersModifierHelper httpHdrModHelper, Request.Builder httpReqBuilder) {
 		if (null != httpHdrModHelper) {
 			httpHdrModHelper.modify(createHttpHeaderModifier(httpReqBuilder));
 		} else {
@@ -46,8 +80,32 @@ public class OkHttp3HttpClientHelper implements HttpClientHelper {
 	@Override
 	public HttpClientHelperResult<String> doPost(URI requestUri, String body, HttpHeadersModifierHelper httpHdrModHelper) {
 		Request.Builder httpReqBuilder = new Request.Builder()
-			.post(RequestBody.create(body.getBytes(StandardCharsets.UTF_8)))
+			.post(createStringRequestBody(body))
 			.url(HttpUrl.get(requestUri));
+		return doRequestWithBody(httpHdrModHelper, httpReqBuilder);
+	}
+
+	@Override
+	public HttpClientHelperResult<String> doPut(URI requestUri, String body, HttpHeadersModifierHelper httpHdrModHelper) {
+		Request.Builder httpReqBuilder = new Request.Builder()
+			.put(createStringRequestBody(body))
+			.url(HttpUrl.get(requestUri));
+		return doRequestWithBody(httpHdrModHelper, httpReqBuilder);
+	}
+
+	@Override
+	public HttpClientHelperResult<String> doPatch(URI requestUri, String body, HttpHeadersModifierHelper httpHdrModHelper) {
+		Request.Builder httpReqBuilder = new Request.Builder()
+			.patch(createStringRequestBody(body))
+			.url(HttpUrl.get(requestUri));
+		return doRequestWithBody(httpHdrModHelper, httpReqBuilder);
+	}
+
+	private RequestBody createStringRequestBody(String body) {
+		return RequestBody.create(body, APPLICATION_JSON_UTF8);
+	}
+
+	private HttpClientHelperResult<String> doRequestWithBody(HttpHeadersModifierHelper httpHdrModHelper, Request.Builder httpReqBuilder) {
 		if (null != httpHdrModHelper) {
 			httpHdrModHelper.modify(createHttpHeaderModifier(httpReqBuilder));
 		} else {
@@ -64,7 +122,7 @@ public class OkHttp3HttpClientHelper implements HttpClientHelper {
 				return new HttpClientHelperResult<>(status, httpRsp.headers().toMultimap(), rbody.string());
 			}
 		} catch (IOException e) {
-			throw new HttpClientHelperException("An error occurred", e);
+			throw new HttpClientHelperException(e);
 		}
 	}
 

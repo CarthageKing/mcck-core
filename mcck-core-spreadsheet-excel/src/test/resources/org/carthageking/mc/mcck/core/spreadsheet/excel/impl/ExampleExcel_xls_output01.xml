@@ -4,32 +4,32 @@
 		<c dataType="string" row="2" col="10" cellRef="K3" rawValue="The below is a list"></c>
 		<c dataType="string" row="3" col="1" cellRef="B4" rawValue="This is a string"></c>
 		<c dataType="string" row="3" col="10" cellRef="K4" rawValue="Asia"></c>
-		<c dataType="number" row="4" col="1" cellRef="B5" rawValue="47.0" finalValue="47"></c>
+		<c dataType="number" row="4" col="1" cellRef="B5" finalValue="47"></c>
 		<c dataType="string" row="4" col="5" cellRef="F5" rawValue="A cell with formatting"></c>
 		<c dataType="string" row="4" col="10" cellRef="K5" rawValue="Australia"></c>
-		<c dataType="number" row="5" col="1" cellRef="B6" rawValue="47.75" finalValue="47.75"></c>
+		<c dataType="number" row="5" col="1" cellRef="B6" finalValue="47.75"></c>
 		<c dataType="string" row="5" col="10" cellRef="K6" rawValue="America"></c>
-		<c dataType="number" row="6" col="1" cellRef="B7" rawValue="40669.0" finalValue="5/6/11"></c>
+		<c dataType="number" row="6" col="1" cellRef="B7" finalValue="5/6/11"></c>
 		<c dataType="string" row="6" col="5" cellRef="F7" rawValue="A cell with a more complex formatting"></c>
-		<c dataType="number" row="7" col="1" cellRef="B8" rawValue="40669.0" finalValue="May 6, 2011"></c>
+		<c dataType="number" row="7" col="1" cellRef="B8" finalValue="May 6, 2011"></c>
 		<c dataType="string" row="7" col="2" cellRef="C8" rawValue="date is custom formatted"></c>
-		<c dataType="number" row="8" col="1" cellRef="B9" rawValue="0.12" finalValue="12%"></c>
+		<c dataType="number" row="8" col="1" cellRef="B9" finalValue="12%"></c>
 		<c dataType="string" row="8" col="10" cellRef="K9" rawValue="conditional formatting examples below"></c>
-		<c dataType="number" row="9" col="1" cellRef="B10" rawValue="234.0" finalValue="$   234.00"></c>
+		<c dataType="number" row="9" col="1" cellRef="B10" finalValue="$   234.00"></c>
 		<c dataType="string" row="9" col="10" cellRef="K10" rawValue="Yes"></c>
-		<c dataType="number" row="10" col="1" cellRef="B11" rawValue="-17.5" finalValue="-$17.50"></c>
+		<c dataType="number" row="10" col="1" cellRef="B11" finalValue="-$17.50"></c>
 		<c dataType="string" row="10" col="2" cellRef="C11" rawValue="net negative"></c>
 		<c dataType="string" row="10" col="5" cellRef="F11" rawValue="merged cell horizontall one row"></c>
 		<c dataType="string" row="10" col="10" cellRef="K11" rawValue="No"></c>
-		<c dataType="number" row="11" col="1" cellRef="B12" rawValue="3.0" finalValue="3.000"></c>
+		<c dataType="number" row="11" col="1" cellRef="B12" finalValue="3.000"></c>
 		<c dataType="string" row="11" col="10" cellRef="K12" rawValue="Maybe"></c>
-		<c dataType="number" row="12" col="1" cellRef="B13" rawValue="45.0" finalValue="45.0"></c>
+		<c dataType="number" row="12" col="1" cellRef="B13" finalValue="45.0"></c>
 		<c dataType="string" row="12" col="5" cellRef="F13" rawValue="merged cell vertical one row"></c>
 		<c dataType="string" row="12" col="7" cellRef="H13" rawValue="merged cell horizontal and vertical"></c>
 		<c dataType="string" row="13" col="1" cellRef="B14" rawValue="hi"></c>
 		<c dataType="string" row="14" col="1" cellRef="B15" rawValue="there"></c>
 		<c dataType="string" row="14" col="10" cellRef="K15" rawValue="Chart Example below"></c>
-		<c dataType="number" row="15" col="1" cellRef="B16" rawValue="3.20948234E8" finalValue="320,948,234.00"></c>
+		<c dataType="number" row="15" col="1" cellRef="B16" finalValue="320,948,234.00"></c>
 		<c dataType="string" row="16" col="1" cellRef="B17" rawValue="formulas below"></c>
 		<c dataType="string" row="16" col="10" cellRef="K17" rawValue="Sales for the Year 2002 per Month"></c>
 		<c dataType="formula" row="17" col="1" cellRef="B18" formulaType="NUMERIC" finalValue="3"></c>
@@ -37,35 +37,35 @@
 		<c dataType="string" row="17" col="11" cellRef="L18" rawValue="Sales"></c>
 		<c dataType="formula" row="18" col="1" cellRef="B19" formulaType="NUMERIC" finalValue="8"></c>
 		<c dataType="string" row="18" col="10" cellRef="K19" rawValue="January"></c>
-		<c dataType="number" row="18" col="11" cellRef="L19" rawValue="56000.0" finalValue="$   56,000.00"></c>
+		<c dataType="number" row="18" col="11" cellRef="L19" finalValue="$   56,000.00"></c>
 		<c dataType="formula" row="19" col="1" cellRef="B20" formulaType="STRING" finalValue="Hi formulas below with value 8"></c>
 		<c dataType="string" row="19" col="10" cellRef="K20" rawValue="February"></c>
-		<c dataType="number" row="19" col="11" cellRef="L20" rawValue="12850.0" finalValue="$   12,850.00"></c>
+		<c dataType="number" row="19" col="11" cellRef="L20" finalValue="$   12,850.00"></c>
 		<c dataType="string" row="20" col="1" cellRef="B21" rawValue="cell below values are based on a dropdwon"></c>
 		<c dataType="string" row="20" col="10" cellRef="K21" rawValue="March"></c>
-		<c dataType="number" row="20" col="11" cellRef="L21" rawValue="3930.0" finalValue="$   3,930.00"></c>
+		<c dataType="number" row="20" col="11" cellRef="L21" finalValue="$   3,930.00"></c>
 		<c dataType="string" row="21" col="1" cellRef="B22" rawValue="Asia"></c>
 		<c dataType="string" row="21" col="10" cellRef="K22" rawValue="April"></c>
-		<c dataType="number" row="21" col="11" cellRef="L22" rawValue="484.0" finalValue="$   484.00"></c>
+		<c dataType="number" row="21" col="11" cellRef="L22" finalValue="$   484.00"></c>
 		<c dataType="string" row="22" col="1" cellRef="B23" rawValue="America"></c>
 		<c dataType="string" row="22" col="10" cellRef="K23" rawValue="May"></c>
-		<c dataType="number" row="22" col="11" cellRef="L23" rawValue="3483.0" finalValue="$   3,483.00"></c>
+		<c dataType="number" row="22" col="11" cellRef="L23" finalValue="$   3,483.00"></c>
 		<c dataType="string" row="23" col="1" cellRef="B24" rawValue="https://example.com/this_is_a_hyperlink"></c>
 		<c dataType="string" row="23" col="10" cellRef="K24" rawValue="June"></c>
-		<c dataType="number" row="23" col="11" cellRef="L24" rawValue="35000.0" finalValue="$   35,000.00"></c>
+		<c dataType="number" row="23" col="11" cellRef="L24" finalValue="$   35,000.00"></c>
 		<c dataType="string" row="24" col="1" cellRef="B25" rawValue="Hyperlink with custom title"></c>
 		<c dataType="string" row="24" col="10" cellRef="K25" rawValue="July"></c>
-		<c dataType="number" row="24" col="11" cellRef="L25" rawValue="100.0" finalValue="$   100.00"></c>
+		<c dataType="number" row="24" col="11" cellRef="L25" finalValue="$   100.00"></c>
 		<c dataType="string" row="25" col="10" cellRef="K26" rawValue="August"></c>
-		<c dataType="number" row="25" col="11" cellRef="L26" rawValue="200.0" finalValue="$   200.00"></c>
+		<c dataType="number" row="25" col="11" cellRef="L26" finalValue="$   200.00"></c>
 		<c dataType="string" row="26" col="10" cellRef="K27" rawValue="September"></c>
-		<c dataType="number" row="26" col="11" cellRef="L27" rawValue="300.0" finalValue="$   300.00"></c>
+		<c dataType="number" row="26" col="11" cellRef="L27" finalValue="$   300.00"></c>
 		<c dataType="string" row="27" col="10" cellRef="K28" rawValue="October"></c>
-		<c dataType="number" row="27" col="11" cellRef="L28" rawValue="400.0" finalValue="$   400.00"></c>
+		<c dataType="number" row="27" col="11" cellRef="L28" finalValue="$   400.00"></c>
 		<c dataType="string" row="28" col="10" cellRef="K29" rawValue="November"></c>
-		<c dataType="number" row="28" col="11" cellRef="L29" rawValue="500.0" finalValue="$   500.00"></c>
+		<c dataType="number" row="28" col="11" cellRef="L29" finalValue="$   500.00"></c>
 		<c dataType="string" row="29" col="10" cellRef="K30" rawValue="December"></c>
-		<c dataType="number" row="29" col="11" cellRef="L30" rawValue="600.0" finalValue="$   600.00"></c>
+		<c dataType="number" row="29" col="11" cellRef="L30" finalValue="$   600.00"></c>
 		<c dataType="string" row="41" col="10" cellRef="K42" rawValue="sample pic below that is copy pasted"></c>
 		<c dataType="string" row="41" col="14" cellRef="O42" rawValue="pic below that is inserted as pic"></c>
 		<c dataType="string" row="41" col="19" cellRef="T42" rawValue="example attached files"></c>

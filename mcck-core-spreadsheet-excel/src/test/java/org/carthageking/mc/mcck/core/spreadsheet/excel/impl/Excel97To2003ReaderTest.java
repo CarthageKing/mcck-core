@@ -1,5 +1,25 @@
 package org.carthageking.mc.mcck.core.spreadsheet.excel.impl;
 
+/*-
+ * #%L
+ * mcck-core-spreadsheet-excel
+ * %%
+ * Copyright (C) 2023 - 2024 Michael I. Calderero
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+
 import java.io.File;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -7,8 +27,8 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import org.carthageking.mc.mcck.core.jse.IOUtil;
-import org.carthageking.mc.mcck.core.jse.StrUtil;
+import org.carthageking.mc.mcck.core.jse.McckIOUtil;
+import org.carthageking.mc.mcck.core.jse.McckStrUtil;
 import org.carthageking.mc.mcck.core.test.junit5.McckJunit5Util;
 import org.carthageking.mc.mcck.core.xml.sax.PrintWriterContentHandler;
 import org.junit.jupiter.api.AfterAll;
@@ -47,13 +67,14 @@ class Excel97To2003ReaderTest {
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
 			reader.readSpreadsheet(is, new PrintWriterContentHandler(pw, false, true));
+			pw.flush();
 			//System.out.println(sw);
 			actual = sw.toString();
 		}
 
-		expected = IOUtil.readAllAsStringFromClasspathResource(getClass(), "ExampleExcel_xls_output01.xml", StandardCharsets.UTF_8);
-		actlst = StrUtil.readIntoLines(actual);
-		explst = StrUtil.readIntoLines(expected);
+		expected = McckIOUtil.readAllAsStringFromClasspathResource(getClass(), "ExampleExcel_xls_output01.xml", StandardCharsets.UTF_8);
+		actlst = McckStrUtil.readIntoLines(actual);
+		explst = McckStrUtil.readIntoLines(expected);
 		McckJunit5Util.assertSameLines(explst, actlst);
 
 		{
@@ -62,13 +83,14 @@ class Excel97To2003ReaderTest {
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
 			reader.readSpreadsheet(toRead, new PrintWriterContentHandler(pw, false, true));
+			pw.flush();
 			//System.out.println(sw);
 			actual = sw.toString();
 		}
 
-		expected = IOUtil.readAllAsStringFromClasspathResource(getClass(), "ExampleExcel_xls_output01.xml", StandardCharsets.UTF_8);
-		actlst = StrUtil.readIntoLines(actual);
-		explst = StrUtil.readIntoLines(expected);
+		expected = McckIOUtil.readAllAsStringFromClasspathResource(getClass(), "ExampleExcel_xls_output01.xml", StandardCharsets.UTF_8);
+		actlst = McckStrUtil.readIntoLines(actual);
+		explst = McckStrUtil.readIntoLines(expected);
 		McckJunit5Util.assertSameLines(explst, actlst);
 	}
 }

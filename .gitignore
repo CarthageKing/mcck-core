@@ -1,5 +1,11 @@
 # From https://github.com/github/gitignore/blob/main/Java.gitignore
 
+# aspectj
+ajcore*.txt
+
+# allure
+.allure
+
 # Compiled class file
 *.class
 

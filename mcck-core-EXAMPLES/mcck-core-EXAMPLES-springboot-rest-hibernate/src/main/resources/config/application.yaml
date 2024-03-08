@@ -1,0 +1,152 @@
+logging:
+  config: classpath:logback-mccklog.${MCCK_LOG_PROFILE:dev}.xml
+  level:
+    '[com.zaxxer.hikari.HikariConfig]': ${HIKARI_CONFIG_LOGLEVEL:DEBUG}
+    '[com.zaxxer.hikari]': ${HIKARI_LOGLEVEL:TRACE}
+
+
+server:
+  # Enable graceful shutdown
+  shutdown: graceful
+  tomcat:
+    threads:
+      max: ${SB_SERVER_MAX_THREADS:64}
+      min-spare: ${SB_SERVER_MIN_THREADS:4}
+  jetty:
+    threads:
+      max: ${SB_SERVER_MAX_THREADS:64}
+      min: ${SB_SERVER_MIN_THREADS:4}
+  undertow:
+    threads:
+      io: ${SB_SERVER_IO_THREADS:4}
+      worker: ${SB_SERVER_WORKER_THREADS:32}
+
+
+spring:
+  profiles:
+    include: ${APP_CUSTOM_PROFILE:unittest}
+  # https://docs.spring.io/spring-boot/docs/current/reference/html/io.html#io.caching
+  cache:
+    type: ${SB_SPRING_CACHE_TYPE:none}
+    redis: 
+      time-to-live: ${SB_SPRING_CACHE_TTL:60000}
+      use-key-prefix: ${SB_SPRING_CACHE_REDIS_USE_KEY_PREFIX:true}
+      key-prefix: ${SB_SPRING_CACHE_REDIS_KEY_PREFIX:app_custom}
+  data:
+    redis:
+      host: ${SB_SPRING_DATA_REDIS_HOST:localhost}
+      port: ${SB_SPRING_DATA_REDIS_PORT:6379}
+      connect-timeout: ${SB_SPRING_DATA_REDIS_CONN_TIMEOUT:750}
+      database: ${SB_SPRING_DATA_REDIS_DB:0}
+      username: ${SB_SPRING_DATA_REDIS_USERNAME:}
+      password: ${SB_SPRING_DATA_REDIS_PASSWORD:}
+  task:
+    scheduling:
+      pool:
+        size: ${SB_SPRING_TASK_SCHED_POOL_SIZE:3}
+      shutdown:
+        # for graceful shutdown
+        await-termination:  true
+        await-termination-period: ${SB_SPRING_SHUTDOWN_AWAIT_TERMINATION_PERIOD:15s}
+  datasource:
+    hikari:
+      # https://github.com/brettwooldridge/HikariCP?tab=readme-ov-file#gear-configuration-knobs-baby
+      minimum-idle: ${SB_DATASRC_MIN_POOL_SIZE:2}
+      maximum-pool-size: ${SB_DATASRC_MAX_POOL_SIZE:12}
+      idle-timeout: ${SB_DATASRC_CONN_IDLE_TIMEOUT:10000}
+      keepalive-time: ${SB_DATASRC_CONN_KEEPALIVE_TIME:30000}
+      max-lifetime: ${SB_DATASRC_CONN_MAX_LIFETIME:30000}
+      connection-timeout: ${SB_DATASRC_CONN_TIMEOUT:30000}
+      leak-detection-threshold: ${SB_DATASRC_LEAK_DETECTION_THRESHOLD:4000}
+      # https://github.com/brettwooldridge/HikariCP/wiki/Rapid-Recovery
+      data-source-properties:
+        socketTimeout: ${SB_DATASRC_SOCKET_TIMEOUT:8}
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        # Tells Hibernate to create all tables and structures, as well as
+        # execute all queries, using this schema
+        '[default_schema]': my_schema
+      org:
+        hibernate:
+          envers:
+            # https://docs.jboss.org/envers/docs/#configuration
+            # Also see EnversSettings.java class
+            '[audit_table_suffix]': _a
+            '[revision_field_name]': rev_id
+            '[revision_type_field_name]': rev_type
+            '[store_data_at_delete]': true
+
+
+# Selectively enable needed endoints
+# https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.endpoints
+# https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.metrics
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: health, info, metrics, prometheus
+  endpoint:
+    info:
+      enabled: true
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+    health:
+      # This setting shows all the components available that can be checked
+      # in the liveness or readiness probes. The components will show up
+      # under the /actuator/health endpoint
+      show-components: always
+      enabled: true
+      probes:
+        # This enables the liveness and readiness probes which are the APIs used by
+        # container orchestration software such as Kubernetes to check the health
+        # and status of the application
+        enabled: true
+      # https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.endpoints.kubernetes-probes.external-state
+      group:
+        liveness:
+          # Only include here components that absolutely need to be UP. If any
+          # component is down, the overall liveness state of the app is down
+          # and indicates that the service is unusable and should be restarted.
+          #
+          # As an example, CRUD services absolutely need a database. That
+          # being down means the service cannot be used. Hence, to indicate to
+          # e.g. Kubernetes that the app needs to be restarted, add the
+          # 'db' component here.
+          include: livenessState, db
+        readiness:
+          # Only include here components needed by the service to properly
+          # service requests. If any component indicated is down, the overall
+          # readiness state of the app is down and indicates that the service
+          # is not available to handle requests at this moment in time.
+          #
+          # As an example, the service might write temporary files to disk
+          # and eventually free them up. Any point in time and depending on
+          # the number of requests served, the disk space could fill up. If
+          # it fills up and the service wants to indicate to e.g. Kubernetes
+          # to temporary redirect requests to somewhere else while it finishes
+          # serving its current requests, then add the 'diskSpace' component.
+          #
+          # If the same service uses Redis as a cache for data requests but
+          # can still operate if Redis is down, then do not put the 'redis'
+          # component here.
+          include: readinessState, db, diskSpace
+
+
+mcck:
+  spring:
+    caching:
+      # Used in the McckCacheInterceptor class
+      max_fail_count: 3
+      max_downtime_millis: 5000
+
+
+app_custom:
+  scheduling:
+    # https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/support/CronExpression.html
+    # The '-' value means it is disabled
+    audit_cleaner_svc_sched: ${APP_CUSTOM_AUDIT_CLEANER_SVC_SCHED:-}

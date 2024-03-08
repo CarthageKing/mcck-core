@@ -1,8 +1,27 @@
 package org.carthageking.mc.mcck.core.httpclient.okhttp3;
 
-import org.apache.http.client.utils.URIBuilder;
+/*-
+ * #%L
+ * mcck-core-httpclient-okhttp3
+ * %%
+ * Copyright (C) 2023 - 2024 Michael I. Calderero
+ * %%
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * #L%
+ */
+
 import org.carthageking.mc.mcck.core.httpclient.HttpClientHelper;
-import org.carthageking.mc.mcck.core.httpclient.HttpClientHelperResult;
+import org.carthageking.mc.mcck.core.httpclient.HttpClientHelperTestBase;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -10,17 +29,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.github.tomakehurst.wiremock.WireMockServer;
-import com.github.tomakehurst.wiremock.client.WireMock;
-
 import okhttp3.OkHttpClient;
 
-class OkHttp3HttpClientHelperTest {
+class OkHttp3HttpClientHelperTest extends HttpClientHelperTestBase {
 
-	private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(OkHttp3HttpClientHelperTest.class);
+	//private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(OkHttp3HttpClientHelperTest.class);
 
-	private WireMockServer wireMockServer;
-	private int port;
 	private OkHttpClient httpClient;
 
 	@BeforeAll
@@ -34,115 +48,46 @@ class OkHttp3HttpClientHelperTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		httpClient = new OkHttpClient();
-		wireMockServer = new WireMockServer(0);
-		wireMockServer.start();
-		port = wireMockServer.port();
-		log.trace("Started wiremock on port {}", port);
+		setUpBase();
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
-		wireMockServer.stop();
+		tearDownBase();
 	}
 
 	@Test
 	void test_doGet() {
 		HttpClientHelper hch = new OkHttp3HttpClientHelper(httpClient);
 		Assertions.assertNotNull(((OkHttp3HttpClientHelper) hch).getHttpClient());
-		HttpClientHelperResult<String> result = null;
+		test_doGetBase(hch);
+	}
 
-		// basic call
-		{
-			wireMockServer.stubFor(WireMock.get("/sampleGet").willReturn(WireMock.status(202).withBody("yahello")));
-
-			result = hch.doGet(HttpClientHelper.createURI(() -> {
-				URIBuilder ub = new URIBuilder("http://localhost:" + port + "/sampleGet");
-				return ub.build();
-			}));
-			log.trace("Got {} [{}] response string with length of {}",
-				result.getStatusLine().getCode(), result.getStatusLine().getMessage(),
-				result.getBodyAsString().length());
-			Assertions.assertEquals(true, result.getBody().isPresent());
-			Assertions.assertEquals(202, result.getStatusLine().getCode());
-
-			wireMockServer.resetAll();
-		}
-
-		// testing with setting custom headers
-		{
-			String header1 = "x-abc123";
-			String header2 = "x-xyz456";
-			wireMockServer.stubFor(WireMock.get("/sampleGet")
-				.withHeader(header1, WireMock.equalTo("HHH"))
-				.withHeader(header2, WireMock.equalTo("JJJ"))
-				.willReturn(WireMock.status(207).withBody("cognac")));
-
-			result = hch.doGet(HttpClientHelper.createURI(() -> {
-				URIBuilder ub = new URIBuilder("http://localhost:" + port + "/sampleGet");
-				return ub.build();
-			}), hdrs -> {
-				hdrs.setHeader(header1, "HHH");
-				hdrs.addHeader(header2, "JJJ");
-			});
-			log.trace("Got {} [{}] response string with length of {}",
-				result.getStatusLine().getCode(), result.getStatusLine().getMessage(),
-				result.getBodyAsString().length());
-			Assertions.assertEquals(true, result.getBody().isPresent());
-			Assertions.assertEquals(207, result.getStatusLine().getCode());
-
-			wireMockServer.resetAll();
-		}
+	@Test
+	void test_doDelete() {
+		HttpClientHelper hch = new OkHttp3HttpClientHelper(httpClient);
+		Assertions.assertNotNull(((OkHttp3HttpClientHelper) hch).getHttpClient());
+		test_doDeleteBase(hch);
 	}
 
 	@Test
 	void test_doPost() {
 		HttpClientHelper hch = new OkHttp3HttpClientHelper(httpClient);
 		Assertions.assertNotNull(((OkHttp3HttpClientHelper) hch).getHttpClient());
-		HttpClientHelperResult<String> result = null;
+		test_doPostBase(hch);
+	}
 
-		// basic call
-		{
-			wireMockServer.stubFor(WireMock.post("/samplePost").withRequestBody(WireMock.equalTo("included")).willReturn(WireMock.status(202).withBody("yahello")));
+	@Test
+	void test_doPut() {
+		HttpClientHelper hch = new OkHttp3HttpClientHelper(httpClient);
+		Assertions.assertNotNull(((OkHttp3HttpClientHelper) hch).getHttpClient());
+		test_doPutBase(hch);
+	}
 
-			result = hch.doPost(HttpClientHelper.createURI(() -> {
-				URIBuilder ub = new URIBuilder("http://localhost:" + port + "/samplePost");
-				return ub.build();
-			}), "included");
-			log.trace("Got {} [{}] response string with length of {}",
-				result.getStatusLine().getCode(), result.getStatusLine().getMessage(),
-				result.getBodyAsString().length());
-			Assertions.assertEquals(true, result.getBody().isPresent());
-			Assertions.assertEquals(202, result.getStatusLine().getCode());
-
-			wireMockServer.resetAll();
-		}
-
-		// testing with setting custom headers
-		{
-			String header1 = "x-abc123";
-			String header2 = "x-xyz456";
-			wireMockServer.stubFor(WireMock.post("/samplePost")
-				.withHeader(header1, WireMock.equalTo("HHH"))
-				.withHeader(header2, WireMock.equalTo("JJJ"))
-				.withRequestBody(WireMock.equalTo("lasted"))
-				.willReturn(WireMock.status(207).withBody("cognac").withHeader("X-returned", "returnok")));
-
-			result = hch.doPost(HttpClientHelper.createURI(() -> {
-				URIBuilder ub = new URIBuilder("http://localhost:" + port + "/samplePost");
-				return ub.build();
-			}), "lasted", hdrs -> {
-				hdrs.setHeader(header1, "HHH");
-				hdrs.addHeader(header2, "JJJ");
-			});
-			log.trace("Got {} [{}] response string with length of {}",
-				result.getStatusLine().getCode(), result.getStatusLine().getMessage(),
-				result.getBodyAsString().length());
-			Assertions.assertEquals(true, result.getBody().isPresent());
-			Assertions.assertEquals(207, result.getStatusLine().getCode());
-			Assertions.assertEquals(1, result.getHeaders().get("X-returned").size());
-			Assertions.assertEquals("returnok", result.getHeaders().get("X-returned").get(0));
-
-			wireMockServer.resetAll();
-		}
+	@Test
+	void test_doPatch() {
+		HttpClientHelper hch = new OkHttp3HttpClientHelper(httpClient);
+		Assertions.assertNotNull(((OkHttp3HttpClientHelper) hch).getHttpClient());
+		test_doPatchBase(hch);
 	}
 }

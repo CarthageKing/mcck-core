@@ -1,0 +1,133 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.carthageking.mc</groupId>
+		<artifactId>mcck-core</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>mcck-core-MAVEN-AGGREGATOR-JACOCO</artifactId>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>org.carthageking.mc</groupId>
+			<artifactId>mcck-core-allure-cucumber7-jvm</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.carthageking.mc</groupId>
+			<artifactId>mcck-core-csv</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.carthageking.mc</groupId>
+			<artifactId>mcck-core-cucumber</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.carthageking.mc</groupId>
+			<artifactId>mcck-core-httpclient</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.carthageking.mc</groupId>
+			<artifactId>mcck-core-httpclient-apache-httpclient4</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.carthageking.mc</groupId>
+			<artifactId>mcck-core-httpclient-apache-httpclient5</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.carthageking.mc</groupId>
+			<artifactId>mcck-core-httpclient-java11-httpclient</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.carthageking.mc</groupId>
+			<artifactId>mcck-core-httpclient-jetty</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.carthageking.mc</groupId>
+			<artifactId>mcck-core-httpclient-jse-urlconnection</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.carthageking.mc</groupId>
+			<artifactId>mcck-core-httpclient-netty</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.carthageking.mc</groupId>
+			<artifactId>mcck-core-httpclient-okhttp3</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.carthageking.mc</groupId>
+			<artifactId>mcck-core-jse</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.carthageking.mc</groupId>
+			<artifactId>mcck-core-json</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.carthageking.mc</groupId>
+			<artifactId>mcck-core-spreadsheet</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.carthageking.mc</groupId>
+			<artifactId>mcck-core-spreadsheet-excel</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.carthageking.mc</groupId>
+			<artifactId>mcck-core-xml</artifactId>
+		</dependency>
+	</dependencies>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<!--
+							Here we use aggregate to consolidate all the reports from other modules to
+							give an overall code coverage view
+							-->
+							<report>report-aggregate</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
+</project>
