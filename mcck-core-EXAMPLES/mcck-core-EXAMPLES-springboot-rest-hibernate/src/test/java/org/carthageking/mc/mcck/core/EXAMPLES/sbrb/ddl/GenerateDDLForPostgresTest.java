@@ -38,6 +38,10 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
+
 // see comments in GenerateDDLForH2Test.java to get an idea of these classes
 @ContextConfiguration(classes = { TestSpringConfig.class, CommonConfig.class, TestDbConfig.class })
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -57,6 +61,8 @@ import org.springframework.test.context.TestPropertySource;
 // when there is an explicit DataSource bean definition in TestDbConfig.java.
 // see notes there before removing the below annotation
 @Disabled
+@Epic("Automation Epic")
+@Feature("DDL Generation Features")
 @McckAllureParentSuite("Unit Tests Suite")
 // below annotation will be used to override the allure suite name
 @DisplayName("DDL Generation")
@@ -79,6 +85,7 @@ class GenerateDDLForPostgresTest {
 	void tearDown() throws Exception {
 	}
 
+	@Story("Auto-generate Postgres DDL from Hibernate entities - Story")
 	@Test
 	void test_generateDdl() {
 		Assertions.assertTrue(true);

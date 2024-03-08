@@ -48,8 +48,13 @@ import org.springframework.test.context.ContextConfiguration;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import jakarta.annotation.Resource;
 
+@Epic("Application Observability")
+@Feature("Actuator REST APIs")
 @McckAllureParentSuite("Unit Tests Suite")
 @DisplayName("Spring Actuator APIs")
 @ContextConfiguration(classes = { TestSpringConfig.class, CommonConfig.class, TestDbConfig.class })
@@ -87,6 +92,7 @@ class ActuatorEndpointsTest {
 	void tearDown() throws Exception {
 	}
 
+	@Story("Health Story")
 	@Test
 	void test_health() {
 		{
@@ -103,6 +109,7 @@ class ActuatorEndpointsTest {
 		}
 	}
 
+	@Story("Health Story")
 	@Test
 	void test_health_liveness() {
 		{
@@ -118,6 +125,7 @@ class ActuatorEndpointsTest {
 		}
 	}
 
+	@Story("Health Story")
 	@Test
 	void test_health_readiness() {
 		{
@@ -133,6 +141,7 @@ class ActuatorEndpointsTest {
 		}
 	}
 
+	@Story("Info Story")
 	@Test
 	void test_info() {
 		{
@@ -149,6 +158,7 @@ class ActuatorEndpointsTest {
 		}
 	}
 
+	@Story("Metrics Story")
 	@Test
 	void test_metrics() {
 		String[] metricName = { null };
@@ -183,6 +193,7 @@ class ActuatorEndpointsTest {
 		}
 	}
 
+	@Story("Prometheus Story")
 	@Test
 	void test_prometheus() {
 		{

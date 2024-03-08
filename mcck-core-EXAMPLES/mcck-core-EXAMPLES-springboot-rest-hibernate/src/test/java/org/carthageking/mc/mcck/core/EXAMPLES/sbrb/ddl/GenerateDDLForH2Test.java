@@ -36,6 +36,10 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
+
 @ContextConfiguration(classes = { TestSpringConfig.class, CommonConfig.class, TestDbConfig.class })
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = {
@@ -58,6 +62,9 @@ import org.springframework.test.context.TestPropertySource;
 	"spring.jpa.properties.jakarta.persistence.schema-generation.scripts.action=create",
 	"spring.jpa.properties.jakarta.persistence.schema-generation.scripts.create-target=target/create.sql",
 })
+@Epic("Automation Epic")
+@Feature("DDL Generation Features")
+@Story("Auto-generate H2 DDL from Hibernate entities - Story")
 @McckAllureParentSuite("Unit Tests Suite")
 // below annotation will be used to override the allure suite name
 @DisplayName("DDL Generation")

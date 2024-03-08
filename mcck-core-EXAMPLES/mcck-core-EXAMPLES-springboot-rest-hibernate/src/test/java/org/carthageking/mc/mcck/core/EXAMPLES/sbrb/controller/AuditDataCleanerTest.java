@@ -40,6 +40,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 
+import io.qameta.allure.Flaky;
 import jakarta.annotation.Resource;
 
 @McckAllureParentSuite("Unit Tests Suite")
@@ -88,6 +89,7 @@ class AuditDataCleanerTest {
 		auditCleanerSvc.pause();
 	}
 
+	@Flaky
 	@DisplayName("Audit Data")
 	@Test
 	void test_cleaning() throws Exception {
