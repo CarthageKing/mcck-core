@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.carthageking.mc</groupId>
 		<artifactId>mcck-core</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>mcck-core-httpclient-java11-httpclient</artifactId>
 
