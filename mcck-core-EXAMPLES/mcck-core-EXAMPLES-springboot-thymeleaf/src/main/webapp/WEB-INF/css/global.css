@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+body.min-body-dimensions {
+	min-width: 1280px;
+	min-height: 720px;
+}
+
+.err-text {
+	color: red;
+}

@@ -41,6 +41,7 @@
 
 		<spring.boot.version>3.4.1</spring.boot.version>
 		<aspectjweaver.version>1.9.22.1</aspectjweaver.version>
+		<selenium.version>4.27.0</selenium.version>
 
 
 		<maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
@@ -254,6 +255,36 @@
 				<version>${spring.boot.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-java</artifactId>
+				<version>${selenium.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-support</artifactId>
+				<version>${selenium.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-firefox-driver</artifactId>
+				<version>${selenium.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-chrome-driver</artifactId>
+				<version>${selenium.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.seleniumhq.selenium</groupId>
+				<artifactId>selenium-edge-driver</artifactId>
+				<version>${selenium.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

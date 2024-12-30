@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+	<title th:text="${loginTitle}"></title>
+	<link th:href="@{/css/global.css}" rel="stylesheet"/>
+	<script th:src="@{/js/jquery-3.7.1.min.js}"></script>
+	<script th:src="@{/js/app/login.js}"></script>
+</head>
+<body class="min-body-dimensions">
+	<form id="basicInfoLoginForm" th:action="@{/doLogin}" method="post" th:object="${basicLoginInfoForm}">
+		<table>
+			<tr th:each="errMsg : ${errMsgList}">
+				<td colspan="2">
+					<span class="err-text" th:text="${errMsg}">Error message</span>
+				</td>
+			</tr>
+			<tr>
+				<td>Username:</td>
+				<td><input type="text" autocomplete="off" th:field="${basicLoginInfoForm.username}"/></td>
+			</tr>
+			<tr>
+				<td>Password:</td>
+				<td><input type="password" autocomplete="off" th:field="${basicLoginInfoForm.password}"/></td>
+			</tr>
+		</table>
+	</form>
+	<button id="loginSubmitBtn">Submit</button>
+</body>
+</html>

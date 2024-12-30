@@ -29,5 +29,6 @@
 	</build>
 	<modules>
 		<module>mcck-core-EXAMPLES-springboot-rest-hibernate</module>
+		<module>mcck-core-EXAMPLES-springboot-thymeleaf</module>
 	</modules>
 </project>
