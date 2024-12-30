@@ -71,12 +71,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.carthageking.mc</groupId>
-			<artifactId>mcck-core-cucumber</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-support</artifactId>
 			<scope>test</scope>

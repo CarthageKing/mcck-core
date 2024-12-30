@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class GeneralController {
 
-	private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(GeneralController.class);
+	private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(GeneralController.class);
 
 	public GeneralController() {
 		// noop
@@ -42,7 +42,7 @@ public class GeneralController {
 
 		if (username.isEmpty() || password.isEmpty()) {
 			final String errMsg = "Username or password cannot be blank";
-			log.error(errMsg);
+			LOG.error(errMsg);
 			List<String> errMsgList = new ArrayList<>();
 			redirectAttrs.addFlashAttribute("errMsgList", errMsgList);
 			errMsgList.add(errMsg);
