@@ -74,8 +74,8 @@ public class CustomCsvWriter extends CSVWriter {
 			appendQuoteCharacterIfNeeded2(applyQuotesToAll, appendable, stringContainsSpecialCharacters);
 		}
 
-		appendable.append(lineEnd);
-		writer.write(appendable.toString());
+		appendable.append(getLineEnd());
+		getWriter().write(appendable.toString());
 	}
 
 	private void appendQuoteCharacterIfNeeded2(boolean applyQuotesToAll, Appendable appendable, Boolean stringContainsSpecialCharacters) throws IOException {

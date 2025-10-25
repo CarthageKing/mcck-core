@@ -84,23 +84,29 @@ spring:
 # https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.metrics
 management:
   endpoints:
-    enabled-by-default: false
+    #enabled-by-default: false # deprecated in SpringBoot 3.4.x
+    access:
+      default: none
     web:
       exposure:
         include: health, info, metrics, prometheus
   endpoint:
     info:
-      enabled: true
+      #enabled: true # deprecated in SpringBoot 3.4.x
+      access: read-only
     metrics:
-      enabled: true
+      #enabled: true # deprecated in SpringBoot 3.4.x
+      access: read-only
     prometheus:
-      enabled: true
+      #enabled: true # deprecated in SpringBoot 3.4.x
+      access: read-only
     health:
       # This setting shows all the components available that can be checked
       # in the liveness or readiness probes. The components will show up
       # under the /actuator/health endpoint
       show-components: always
-      enabled: true
+      #enabled: true # deprecated in SpringBoot 3.4.x
+      access: read-only
       probes:
         # This enables the liveness and readiness probes which are the APIs used by
         # container orchestration software such as Kubernetes to check the health

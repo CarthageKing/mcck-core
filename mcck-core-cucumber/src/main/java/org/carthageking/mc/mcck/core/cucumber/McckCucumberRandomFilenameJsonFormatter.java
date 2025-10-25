@@ -32,11 +32,11 @@ import org.carthageking.mc.mcck.core.jse.McckException;
 import org.carthageking.mc.mcck.core.jse.McckIOUtil;
 
 import io.cucumber.core.plugin.JsonFormatter;
-import io.cucumber.plugin.EventListener;
+import io.cucumber.plugin.ConcurrentEventListener;
 import io.cucumber.plugin.event.EventPublisher;
 import io.cucumber.plugin.event.TestRunFinished;
 
-public class McckCucumberRandomFilenameJsonFormatter implements EventListener, Closeable, AutoCloseable {
+public class McckCucumberRandomFilenameJsonFormatter implements ConcurrentEventListener, Closeable, AutoCloseable {
 
 	private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(McckCucumberRandomFilenameJsonFormatter.class);
 
