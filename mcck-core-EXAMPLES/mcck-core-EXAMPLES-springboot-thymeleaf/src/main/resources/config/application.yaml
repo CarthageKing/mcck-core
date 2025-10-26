@@ -17,3 +17,6 @@ spring:
     cache: false
     encoding: "UTF-8"
     enable-spring-el-compiler: true
+  threads:
+    virtual:
+      enabled: true

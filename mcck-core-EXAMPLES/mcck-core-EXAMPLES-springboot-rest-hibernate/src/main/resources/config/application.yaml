@@ -77,6 +77,9 @@ spring:
             '[revision_field_name]': rev_id
             '[revision_type_field_name]': rev_type
             '[store_data_at_delete]': true
+  threads:
+    virtual:
+      enabled: ${SB_VIRTUAL_THREADS_ENABLED:true}
 
 
 # Selectively enable needed endoints
