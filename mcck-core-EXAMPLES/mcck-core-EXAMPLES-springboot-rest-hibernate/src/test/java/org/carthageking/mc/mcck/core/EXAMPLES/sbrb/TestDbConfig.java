@@ -5,7 +5,7 @@ import javax.sql.DataSource;
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.dao.BookEntityDao;
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.dao.entity.BookEntity;
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.util.DbHelper;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.persistence.autoconfigure.EntityScan;
 import org.springframework.context.annotation.Bean;
 
 /*-

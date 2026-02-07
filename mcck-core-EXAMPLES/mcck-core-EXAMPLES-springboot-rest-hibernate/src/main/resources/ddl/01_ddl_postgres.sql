@@ -55,7 +55,7 @@
         b_description varchar(255),
         b_name varchar(255),
         b_excerpt text,
-        b_img text,
+        b_img oid,
         primary key (rev_id, b_id)
     );
 

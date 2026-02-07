@@ -27,10 +27,10 @@ import org.junit.platform.suite.api.ConfigurationParameter;
 import org.junit.platform.suite.api.IncludeEngines;
 import org.junit.platform.suite.api.SelectClasspathResource;
 import org.junit.platform.suite.api.Suite;
-import org.springframework.boot.test.autoconfigure.actuate.observability.AutoConfigureObservability;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 
 import io.cucumber.junit.platform.engine.Constants;
 import io.cucumber.spring.CucumberContextConfiguration;
@@ -67,7 +67,9 @@ import io.cucumber.spring.CucumberContextConfiguration;
 // need the annotation below so things like /actuator/prometheus is
 // configured properly in test context. the below annotation is not needed
 // in the actual application
-@AutoConfigureObservability
+@TestPropertySource(properties = {
+	"spring.test.observability.auto-configure=true",
+})
 public class ActuatorEndpointsCucumberTest {
 	// This class needs to be empty (i.e. will not contain any @Test methods)
 	// otherwise the annotated test methods will be executed normally, which we

@@ -2,7 +2,7 @@ package org.carthageking.mc.mcck.core.EXAMPLES.sbrb.config;
 
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.dao.BookEntityDao;
 import org.carthageking.mc.mcck.core.EXAMPLES.sbrb.dao.entity.BookEntity;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.persistence.autoconfigure.EntityScan;
 
 /*-
  * #%L

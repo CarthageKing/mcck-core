@@ -37,13 +37,13 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.actuate.observability.AutoConfigureObservability;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -62,7 +62,9 @@ import jakarta.annotation.Resource;
 // need the annotation below so things like /actuator/prometheus is
 // configured properly in test context. the below annotation is not needed
 // in the actual application
-@AutoConfigureObservability
+@TestPropertySource(properties = {
+	"spring.test.observability.auto-configure=true",
+})
 class ActuatorEndpointsTest {
 
 	private static final org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(ActuatorEndpointsTest.class);
